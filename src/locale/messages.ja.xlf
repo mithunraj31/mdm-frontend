@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="ja" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="active" datatype="html">
+        <source>アクティブ</source>
+      </trans-unit>
+      <trans-unit id="online" datatype="html">
+        <source>オンライン</source>
+      </trans-unit>
+      <trans-unit id="enrollment" datatype="html">
+        <source>在籍</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
