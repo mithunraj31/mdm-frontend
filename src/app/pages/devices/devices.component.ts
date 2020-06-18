@@ -18,7 +18,9 @@ export class DevicesComponent {
     // the data will receive from backend API
     // API reference: GET api/devices
     deviceListings: DeviceModel[];
+    
     constructor(){
+
         this.deviceTableSettings = {
             // hide create, update, and delete row buttons from ng2-smart-table
             actions: {
@@ -146,4 +148,3 @@ export class DevicesComponent {
 
     }
 }
-
