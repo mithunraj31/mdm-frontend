@@ -9,7 +9,7 @@ import { Component, Input } from '@angular/core';
 @Component({
     selector: 'ngx-nb-toggle-wraper',
     // display NbToggleComponent
-    template: `<nb-toggle [checked]="value"></nb-toggle>` 
+    template: `<nb-toggle [checked]="value"></nb-toggle>`,
 })
 export class NbToggleWraperComponent {
     // value: row data use to pass value to NbToggleComponent in "checked" directive

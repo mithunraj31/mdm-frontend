@@ -14,7 +14,7 @@ import { NbToggleWraperComponent } from '../../@theme/components/nebular-wraper/
     ],
     declarations: [
         DevicesComponent,
-        NbToggleWraperComponent
+        NbToggleWraperComponent,
     ],
   })
   export class DevicesModule {
