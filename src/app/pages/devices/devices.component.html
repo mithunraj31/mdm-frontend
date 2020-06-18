@@ -1,7 +1,12 @@
 <div class="row">
-   <div class="col-lg4-">
+   <div class="col-lg-12">
     <nb-card>
-        <nb-card-body>Device manament page</nb-card-body>
+        <nb-card-header>
+            Device
+        </nb-card-header>
+        <nb-card-body>
+            <ng2-smart-table [settings]="deviceTableSettings" [source]="deviceListings"></ng2-smart-table>
+        </nb-card-body>
     </nb-card>
    </div>
 </div>
