@@ -1,29 +1,45 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { LegendItemModel } from '../../@core/entities/legend-item.model';
 import { NgxLegendItemColor } from '../../@core/enums/enum.legend-item-color';
 import { DeviceModelSummaryModel } from '../../@core/entities/device-model-summary.mode';
 import { LicenseStatusModel } from '../../@core/entities/license-status.mode';
 
 @Component({
-  selector: 'ngx-dashboard',
+  selector: 'mdm-dashboard',
   styleUrls: ['./dashboard.component.scss'],
   templateUrl: './dashboard.component.html',
 })
-export class DashboardComponent implements AfterViewInit {
+export class DashboardComponent {
 
+  //@property deviceSummary: contain overview device status in the system
+  // ex. total device, online count, active count, enrolled count.
   deviceSummary: any = {};
 
+  //@property deviceActiveChartLegends: contain labels for active device chart
+  // data format => LegendItemModel
   deviceActiveChartLegends: LegendItemModel[];
 
+  //@property deviceOnlineChartLegends: contain labels for online device chart
+  // data format => LegendItemModel
   deviceOnlineChartLegends: LegendItemModel[];
 
+  //@property deviceEnrollmentChartLegends: contain labels for enrollment device chart
+  // data format => LegendItemModel
   deviceEnrollmentChartLegends: LegendItemModel[];
 
+  //@property deviceModelSummaries: device model status listings 
+  // each models will contain online and offline status
+  // data format => DeviceModelSummaryModel
   deviceModelSummaries: DeviceModelSummaryModel[];
 
+  //@property licenseStatus: device license status listings 
+  // each models will contain number of expired device, active device and etc.
+  // data format => LicenseStatusModel
   licenseStatus: LicenseStatusModel[];
 
   constructor() {
+
+    // mockup data
     this.deviceSummary = {
       registedCount: 20,
       activeCount: 15,
@@ -91,10 +107,5 @@ export class DashboardComponent implements AfterViewInit {
         inuseCount: 4,
       },
     ];
-  }
-
-  ngAfterViewInit(): void {
-
-
   }
 }

@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
 // references:
 // https://stackoverflow.com/questions/58609812/how-to-pass-data-to-ng2-smart-table-rendercomponent-from-http-request
 @Component({
-    selector: 'ngx-nb-toggle-wraper',
+    selector: 'mdm-toggle-wraper',
     // display NbToggleComponent
     template: `<nb-toggle [checked]="value"></nb-toggle>`,
 })

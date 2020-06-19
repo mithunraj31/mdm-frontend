@@ -13,6 +13,10 @@ import {
   NbSelectModule,
   NbIconModule,
   NbThemeModule,
+  NbToggleModule,
+  NbCardModule,
+  NbInputModule,
+  
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbSecurityModule } from '@nebular/security';
@@ -29,7 +33,7 @@ import {
   PluralPipe,
   RoundPipe,
   TimingPipe,
-  NumberWithCommasPipe,
+  NumberWithCommasPipe
 } from './pipes';
 import {
   OneColumnLayoutComponent,
@@ -42,6 +46,10 @@ import { CORPORATE_THEME } from './styles/theme.corporate';
 import { DARK_THEME } from './styles/theme.dark';
 import { MATERIAL_LIGHT_THEME } from './styles/material/theme.material-light';
 import { MATERIAL_DARK_THEME } from './styles/material/theme.material-dark';
+import { NbToggleWraperComponent } from './components/nebular-wraper/mdm-toggle.component';
+import { SelectGroupModalComponent } from './components/select-group-modal/select-group-modal.component';
+import { GroupManagementPanelComponent } from './components/group-management-panel/group-management-panel.component';
+import { TreeModule } from 'angular-tree-component';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -56,8 +64,14 @@ const NB_MODULES = [
   NbSelectModule,
   NbIconModule,
   NbEvaIconsModule,
+  NbToggleModule,
+  NbCardModule,
+  NbButtonModule,
+  NbInputModule,
+  NbSelectModule,
 ];
 const COMPONENTS = [
+  GroupManagementPanelComponent,
   SwitcherComponent,
   LayoutDirectionSwitcherComponent,
   HeaderComponent,
@@ -66,6 +80,9 @@ const COMPONENTS = [
   OneColumnLayoutComponent,
   ThreeColumnsLayoutComponent,
   TwoColumnsLayoutComponent,
+  NbToggleWraperComponent,
+  SelectGroupModalComponent,
+
 ];
 const PIPES = [
   CapitalizePipe,
@@ -76,7 +93,7 @@ const PIPES = [
 ];
 
 @NgModule({
-  imports: [CommonModule, MatRippleModule, ...NB_MODULES],
+  imports: [CommonModule, MatRippleModule, TreeModule.forRoot(), ...NB_MODULES],
   exports: [CommonModule, MatRippleModule, ...PIPES, ...COMPONENTS],
   declarations: [...COMPONENTS, ...PIPES],
 })

@@ -21,10 +21,10 @@
       <!-- i18n="@@active" -->
       <nb-card-header>Active</nb-card-header>
       <nb-card-body>
-        <ngx-statistic-pie 
+        <mdm-statistic-pie 
          [value]="deviceSummary.activeCount" 
          [maxValue]="deviceSummary.registedCount" 
-         [chartLegend]="deviceActiveChartLegends"></ngx-statistic-pie>
+         [chartLegend]="deviceActiveChartLegends"></mdm-statistic-pie>
       </nb-card-body>
     </nb-card>
   </div>
@@ -33,10 +33,10 @@
       <!-- i18n="@@online" -->
       <nb-card-header>Online</nb-card-header>
       <nb-card-body>
-        <ngx-statistic-pie 
+        <mdm-statistic-pie 
          [value]="deviceSummary.onlineCount" 
          [maxValue]="deviceSummary.registedCount"
-         [chartLegend]="deviceOnlineChartLegends"></ngx-statistic-pie>
+         [chartLegend]="deviceOnlineChartLegends"></mdm-statistic-pie>
       </nb-card-body>
     </nb-card>
   </div>
@@ -45,10 +45,10 @@
        <!-- i18n="@@enrollment" -->
       <nb-card-header>Enrollment</nb-card-header>
       <nb-card-body>
-        <ngx-statistic-pie 
+        <mdm-statistic-pie 
          [value]="deviceSummary.enrolledCount" 
          [maxValue]="deviceSummary.registedCount"
-         [chartLegend]="deviceEnrollmentChartLegends"></ngx-statistic-pie>
+         [chartLegend]="deviceEnrollmentChartLegends"></mdm-statistic-pie>
       </nb-card-body>
     </nb-card>
   </div>

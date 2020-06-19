@@ -6,7 +6,7 @@ import { LegendItemModel } from '../../../@core/entities/legend-item.model';
 
 
 @Component({
-  selector: 'ngx-statistic-pie',
+  selector: 'mdm-statistic-pie',
   styleUrls: ['./statistic-pie.component.scss'],
   templateUrl: './statistic-pie.component.html',
 })

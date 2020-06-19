@@ -1,0 +1,19 @@
+<nb-card>
+    <nb-card-header>
+        <div class="row">
+            <div class="col-lg-6"><h5>Devices</h5></div>
+            <div class="col-lg-6 text-right">
+                <button nbButton status="primary" class="add-device-button"
+                (click)="onAddDeviceManualButtonClick()">
+                    <i class="fas fa-plus-square"></i>
+                </button>
+                <button nbButton status="primary" class="add-device-button">
+                    <i class="fas fa-qrcode"></i>
+                </button>
+            </div>
+        </div>
+    </nb-card-header>
+    <nb-card-body>
+        <ng2-smart-table [settings]="tableSettings" [source]="listings"></ng2-smart-table>
+    </nb-card-body>
+</nb-card>
