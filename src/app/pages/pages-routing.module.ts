@@ -21,7 +21,10 @@ const routes: Routes = [{
     {
       path: 'devices',
       component: DevicesComponent,
-    },
+      children: [
+        
+      ]
+    }
   ],
 }];
 
