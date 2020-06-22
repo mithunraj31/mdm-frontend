@@ -16,6 +16,7 @@ import {
   NbToggleModule,
   NbCardModule,
   NbInputModule,
+  NbListModule,
   
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
@@ -69,6 +70,7 @@ const NB_MODULES = [
   NbButtonModule,
   NbInputModule,
   NbSelectModule,
+  NbListModule,
 ];
 const COMPONENTS = [
   GroupManagementPanelComponent,
