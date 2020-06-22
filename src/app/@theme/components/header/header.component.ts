@@ -3,9 +3,10 @@ import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeServ
 
 import { UserData } from '../../../@core/data/users';
 import { LayoutService } from '../../../@core/utils';
-import { map, takeUntil } from 'rxjs/operators';
+import { map, takeUntil, filter } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
 import { RippleService } from '../../../@core/utils/ripple.service';
+import { AuthService } from '../../../auth/Auth.service';
 
 @Component({
   selector: 'ngx-header',
@@ -48,7 +49,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentTheme = 'default';
 
-  userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
+  userMenu = [{ title: 'Profile', data: { action : 'profile'} },
+  { title: 'Log out', data: { action:  'logout'} }];
 
   public constructor(
     private sidebarService: NbSidebarService,
@@ -58,6 +60,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private layoutService: LayoutService,
     private breakpointService: NbMediaBreakpointsService,
     private rippleService: RippleService,
+    private authService: AuthService
   ) {
     this.materialTheme$ = this.themeService.onThemeChange()
       .pipe(map(theme => {
@@ -90,6 +93,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.currentTheme = themeName;
         this.rippleService.toggle(themeName?.startsWith('material'));
       });
+    this.menuService.onItemClick()
+      .subscribe(clicked => {
+        if(clicked.item.data.action=='logout'){
+          this.authService.logout();
+        }
+
+      })
   }
 
   ngOnDestroy() {

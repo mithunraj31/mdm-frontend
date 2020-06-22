@@ -10,4 +10,5 @@
 
 export const environment = {
   production: false,
+  host: "https://midmtest.mic.com.tw/api/"
 };
