@@ -6,7 +6,7 @@ import { LegendItemModel } from '../../../@core/entities/legend-item.model';
 
 
 @Component({
-  selector: 'ngx-statistic-pie',
+  selector: 'mdm-statistic-pie',
   styleUrls: ['./statistic-pie.component.scss'],
   templateUrl: './statistic-pie.component.html',
 })
@@ -45,6 +45,8 @@ export class DashboardStatisticPieComponent implements AfterViewInit, OnDestroy 
   }
 
   setOptions(variables) {
+    console.log(this.chartLegend[0].title, this.value, this.maxValue)
+
     const visitorsPie: any = variables.visitorsPie;
     const calulatedRatio = ((this.value / this.maxValue) * 100);
     this.option = {

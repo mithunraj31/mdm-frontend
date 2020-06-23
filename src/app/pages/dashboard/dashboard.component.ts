@@ -24,6 +24,12 @@ export class DashboardComponent implements AfterViewInit, OnInit {
 
   licenseStatus: LicenseStatusModel[] = [];
 
+  dashboardSpiners = {
+    statusChart: false,
+    modelTable: false,
+    licenseTable: false
+  };
+
   constructor(private dashboardService: DashboardService) {
 
     this.deviceActiveChartLegends = [
@@ -60,12 +66,13 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     ];
 
     this.deviceSummary = {
-      registedCount: 3,
-      activeCount: 3,
-      onlineCount: 3,
-      enrolledCount: 3,
-    }
+      registedCount: 0,
+      activeCount: 0,
+      onlineCount: 0,
+      enrolledCount: 0,
+    };
   }
+
   ngOnInit(): void {
     this.getLicense();
     this.getModels();
@@ -73,44 +80,66 @@ export class DashboardComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit(): void {
-
-
   }
+
   getLicense() {
-    this.dashboardService.getLicense().subscribe(result => {
-      // console.log(result);
-      result.data.forEach(license => {
-        let l: LicenseStatusModel = {
-          availableCount: license.report.used,
-          expiredCount: license.report.expired,
-          inuseCount: license.report.active,
-          name: license.name
+    this.dashboardSpiners.licenseTable = true;
+    this.dashboardService.getLicense()
+      .subscribe(result => {
+        this.dashboardSpiners.licenseTable = false;
+        if (result && result.data) {
+          result.data.forEach(license => {
+            let l: LicenseStatusModel = {
+              availableCount: license.report.used,
+              expiredCount: license.report.expired,
+              inuseCount: license.report.active,
+              name: license.name
+            }
+            this.licenseStatus.push(l);
+          });
         }
-        this.licenseStatus.push(l);
+      }, error => {
+        this.dashboardSpiners.licenseTable = false;
       });
-    })
   }
+
   getModels() {
-    this.dashboardService.getModelStatus().subscribe(result => {
-      // console.log(result)
-      for (let model in result.data.model) {
-        // console.log(model);
-        let m: DeviceModelSummaryModel = {
-          name: model,
-          count: result.data.model[model]
+    this.dashboardSpiners.modelTable = true;
+    this.dashboardService.getModelStatus()
+      .subscribe(result => {
+        this.dashboardSpiners.modelTable = false;
+        if (result && result.data && result.data.model) {
+          for (let model in result.data.model) {
+            const m: DeviceModelSummaryModel = {
+              name: model,
+              count: result.data.model[model]
+            }
+            this.deviceModelSummaries.push(m);
+          }
         }
-        this.deviceModelSummaries.push(m);
-      }
-    });
+
+      }, error => {
+        this.dashboardSpiners.modelTable = false;
+      });
   }
+
   getDeviceStatus() {
-    this.dashboardService.getDeviceStatus().subscribe(result => {
-      this.deviceSummary = {
-        registedCount: result.data.total,
-        activeCount: result.data.total - result.data.inactive,
-        onlineCount: result.data.online,
-        enrolledCount: result.data.enrolled,
-      }
-    })
+    this.dashboardSpiners.statusChart = true;
+    this.dashboardService.getDeviceStatus()
+      .subscribe(result => {
+        this.dashboardSpiners.statusChart = false;
+        if (result && result.data) {
+          const totalCount: number = result.data.total || 0;
+          console.log(totalCount, result.data.inactive);
+          this.deviceSummary = {
+            registedCount: totalCount,
+            activeCount: totalCount - (result.data.inactive || 0),
+            onlineCount: result.data.online || 0,
+            enrolledCount: result.data.enrolled || 0,
+          }
+        }
+      }, error => {
+        this.dashboardSpiners.statusChart = false;
+      });
   }
 }
