@@ -21,7 +21,7 @@ export class DeviceDetailComponent implements OnInit {
     this.tabs = [
       {
         title: 'General',
-        route: ['./'],
+        route: ['./general'],
       },
       {
         title: 'Applications',
