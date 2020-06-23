@@ -1,0 +1,41 @@
+<h1 id="title" class="title">MDM Lite</h1>
+<p class="sub-title">MDM lite device management platform powered by Mbel.</p>
+
+<form (ngSubmit)="login()" #form="ngForm" aria-labelledby="title">
+
+  <div class="form-control-group">
+    <label class="label" for="input-email">Email address:</label>
+    <input nbInput
+           fullWidth
+           [(ngModel)]="user.email"
+           #email="ngModel"
+           name="email"
+           id="input-email"
+           pattern=".+@.+\..+"
+           placeholder="Email address">
+  </div>
+
+  <div class="form-control-group">
+    <label class="label" for="input-password">Password:</label>
+    <input nbInput
+           fullWidth
+           [(ngModel)]="user.password"
+           #password="ngModel"
+           name="password"
+           type="password"
+           id="input-password"
+           placeholder="Password">
+  </div>
+
+  <div class="form-control-group">
+    <nb-checkbox name="rememberMe" [(ngModel)]="user.eulaEnabled">Keep sign in </nb-checkbox>
+  </div>
+
+  <button nbButton
+          fullWidth
+          status="success"
+          [disabled]="submitted || !form.valid"
+          [class.btn-pulse]="submitted">
+    Log In
+  </button>
+</form>

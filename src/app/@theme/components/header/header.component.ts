@@ -1,11 +1,14 @@
+import { UserAccount } from './../../../@core/entities/UserAccount.model';
+import { UserService } from './../../../services/user.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
 
 import { UserData } from '../../../@core/data/users';
 import { LayoutService } from '../../../@core/utils';
-import { map, takeUntil } from 'rxjs/operators';
+import { map, takeUntil, filter } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
 import { RippleService } from '../../../@core/utils/ripple.service';
+import { AuthService } from '../../../auth/Auth.service';
 
 @Component({
   selector: 'ngx-header',
@@ -17,7 +20,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
   public readonly materialTheme$: Observable<boolean>;
   userPictureOnly: boolean = false;
-  user: any;
+  user: UserAccount;
 
   themes = [
     {
@@ -48,16 +51,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentTheme = 'default';
 
-  userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
+  userMenu = [{ title: 'Profile', data: { action: 'profile' } },
+  { title: 'Log out', data: { action: 'logout' } }];
 
   public constructor(
     private sidebarService: NbSidebarService,
     private menuService: NbMenuService,
     private themeService: NbThemeService,
-    private userService: UserData,
+    private userDataService: UserData, // ngx-admin service
     private layoutService: LayoutService,
     private breakpointService: NbMediaBreakpointsService,
     private rippleService: RippleService,
+    private authService: AuthService,
+    private userService: UserService // mdm service
   ) {
     this.materialTheme$ = this.themeService.onThemeChange()
       .pipe(map(theme => {
@@ -69,7 +75,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.currentTheme = this.themeService.currentTheme;
 
-    this.userService.getUsers()
+    this.userDataService.getUsers()
       .pipe(takeUntil(this.destroy$))
       .subscribe((users: any) => this.user = users.nick);
 
@@ -90,6 +96,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.currentTheme = themeName;
         this.rippleService.toggle(themeName?.startsWith('material'));
       });
+    this.menuService.onItemClick()
+      .subscribe(clicked => {
+        if (clicked.item.data.action == 'logout') {
+          this.authService.logout();
+        }
+      })
+
+    //get user info
+    this.user = this.userService.getLoggedUser();
   }
 
   ngOnDestroy() {
