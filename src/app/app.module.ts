@@ -1,3 +1,4 @@
+import { UserService } from './services/user.service';
 /**
  * @license
  * Copyright Akveo. All Rights Reserved.
@@ -6,12 +7,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
 import { ThemeModule } from './@theme/theme.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-
+import { FormsModule } from '@angular/forms';
 import {
   NbChatModule,
   NbDatepickerModule,
@@ -21,10 +22,15 @@ import {
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
+import { NgxAuthModule } from './pages/auth/auth.module';
+import { AuthService } from './auth/Auth.service';
+import { AuthGuardService } from './auth/auth-guard.service';
+import { AuthInterceptorService } from './auth/auth-interceptor.service';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    FormsModule,
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
@@ -43,6 +49,18 @@ import {
     }),
     CoreModule.forRoot()
   ],
+  providers:[
+    AuthService,
+    AuthGuardService,
+    AuthInterceptorService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true
+    },
+    UserService
+  ],
+
   bootstrap: [AppComponent],
 })
 export class AppModule {

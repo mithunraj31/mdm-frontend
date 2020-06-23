@@ -18,6 +18,7 @@ import {
   NbInputModule,
   NbListModule,
   
+  NbSpinnerModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbSecurityModule } from '@nebular/security';
@@ -73,6 +74,7 @@ const NB_MODULES = [
   NbInputModule,
   NbSelectModule,
   NbListModule,
+  NbSpinnerModule,
 ];
 const COMPONENTS = [
   VerticalDetailComponent,
