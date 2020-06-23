@@ -3,7 +3,7 @@ import { NbThemeService } from '@nebular/theme';
 import { delay, takeWhile } from 'rxjs/operators';
 import { LayoutService } from '../../../@core/utils/layout.service';
 import { LegendItemModel } from '../../../@core/entities/legend-item.model';
-
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'mdm-statistic-pie',
@@ -12,40 +12,73 @@ import { LegendItemModel } from '../../../@core/entities/legend-item.model';
 })
 export class DashboardStatisticPieComponent implements AfterViewInit, OnDestroy {
 
-  private alive = true;
+  private _alive = true;
+  // issue#: when component call ngAfterViewInit 
+  // NbThemeService.getJsTheme() subscribe faster than 
+  // the global varibles obtain data from parent component
+  // DashboardStatisticPieComponent.setOptions() will excute without chart value
+  // sometime the compoment will create wrong chart
 
-  @Input() maxValue: number;
-  @Input() value: number;
-  @Input() chartLegend: LegendItemModel[];
+  // 1st solution
+  // create component input as observer 
+  // after subscribe input value excute NbThemeService.getJsTheme()
+  private _maxValue = new BehaviorSubject<number>(0);
+  private _value = new BehaviorSubject<number>(0);
+  private _chartLengends = new BehaviorSubject<LegendItemModel[]>([]);
+
+  @Input() set maxValue(val: number) {
+    this._maxValue.next(val);
+  }
+
+  get maxValue() {
+    return this._maxValue.getValue();
+  }
+
+  @Input() set value(val: number) {
+    this._value.next(val);
+  }
+
+  get value() {
+    return this._value.getValue();
+  }
+
+
+  @Input() set chartLegend(val: LegendItemModel[]) {
+    this._chartLengends.next(val);
+  }
+
+  get chartLegend() {
+    return this._chartLengends.getValue();
+  }
 
   option: any = {};
 
   echartsIntance: any;
 
   constructor(private theme: NbThemeService,
-              private layoutService: LayoutService) {
+    private layoutService: LayoutService) {
     this.layoutService.onSafeChangeLayoutSize()
       .pipe(
-        takeWhile(() => this.alive),
+        takeWhile(() => this._alive),
       )
       .subscribe(() => this.resizeChart());
   }
 
   ngAfterViewInit() {
-    this.theme.getJsTheme()
-      .pipe(
-        takeWhile(() => this.alive),
-        delay(1),
-      )
-      .subscribe(config => {
-        const variables: any = config.variables;
-
-        this.setOptions(variables);
+    this._maxValue.subscribe(val => {
+      this.theme.getJsTheme()
+        .pipe(
+          takeWhile(() => this._alive),
+          delay(1),
+        )
+        .subscribe(config => {
+          const variables: any = config.variables;
+          this.setOptions(variables);
+        });
     });
   }
 
   setOptions(variables) {
-    console.log(this.chartLegend[0].title, this.value, this.maxValue)
 
     const visitorsPie: any = variables.visitorsPie;
     const calulatedRatio = ((this.value / this.maxValue) * 100);
@@ -200,6 +233,6 @@ export class DashboardStatisticPieComponent implements AfterViewInit, OnDestroy 
   }
 
   ngOnDestroy() {
-    this.alive = false;
+    this._alive = false;
   }
 }
