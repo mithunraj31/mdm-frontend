@@ -12,10 +12,14 @@ import { LogsComponent } from './logs/logs.component';
 import { CommonModule } from '@angular/common';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { GeneralComponent } from './general/general.component';
+import { ThemeModule } from '../../@theme/theme.module';
+import { PercentPieComponent } from './percent-pie/percent-pie.component';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
     imports: [
       CommonModule,
+      ThemeModule,
       NbListModule,
       NbTabsetModule,
       NbRouteTabsetModule,
@@ -23,12 +27,14 @@ import { GeneralComponent } from './general/general.component';
       NbMenuModule,
       Ng2SmartTableModule,
       NbAccordionModule,
+      NgxEchartsModule,
     ],
     declarations: [
       DeviceDetailComponent,
       GeneralComponent,
       AppsComponent,
       LogsComponent,
+      PercentPieComponent,
     ],
     exports: [CommonModule]
   })
