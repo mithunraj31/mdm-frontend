@@ -1,4 +1,5 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { DashboardService } from './../../services/dashboard.service';
+import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { LegendItemModel } from '../../@core/entities/legend-item.model';
 import { NgxLegendItemColor } from '../../@core/enums/enum.legend-item-color';
 import { DeviceModelSummaryModel } from '../../@core/entities/device-model-summary.mode';
@@ -9,7 +10,7 @@ import { LicenseStatusModel } from '../../@core/entities/license-status.mode';
   styleUrls: ['./dashboard.component.scss'],
   templateUrl: './dashboard.component.html',
 })
-export class DashboardComponent implements AfterViewInit {
+export class DashboardComponent implements AfterViewInit, OnInit {
 
   deviceSummary: any = {};
 
@@ -19,17 +20,11 @@ export class DashboardComponent implements AfterViewInit {
 
   deviceEnrollmentChartLegends: LegendItemModel[];
 
-  deviceModelSummaries: DeviceModelSummaryModel[];
+  deviceModelSummaries: DeviceModelSummaryModel[] = [];
 
-  licenseStatus: LicenseStatusModel[];
+  licenseStatus: LicenseStatusModel[] = [];
 
-  constructor() {
-    this.deviceSummary = {
-      registedCount: 20,
-      activeCount: 15,
-      onlineCount: 12,
-      enrolledCount: 10,
-    };
+  constructor(private dashboardService: DashboardService) {
 
     this.deviceActiveChartLegends = [
       {
@@ -64,37 +59,58 @@ export class DashboardComponent implements AfterViewInit {
       },
     ];
 
-    this.deviceModelSummaries = [
-      {
-        name: 'Unknown',
-        online: 0,
-        offline: 1,
-      },
-      {
-        name: 'F740',
-        online: 12,
-        offline: 7,
-      },
-    ];
-
-    this.licenseStatus = [
-      {
-        name: '1 year',
-        expiredCount: 0,
-        availableCount: 15,
-        inuseCount: 8,
-      },
-      {
-        name: '3 year',
-        expiredCount: 0,
-        availableCount: 5,
-        inuseCount: 4,
-      },
-    ];
+    this.deviceSummary = {
+      registedCount: 3,
+      activeCount: 3,
+      onlineCount: 3,
+      enrolledCount: 3,
+    }
+  }
+  ngOnInit(): void {
+    this.getLicense();
+    this.getModels();
+    this.getDeviceStatus();
   }
 
   ngAfterViewInit(): void {
 
 
+  }
+  getLicense() {
+    this.dashboardService.getLicense().subscribe(result => {
+      // console.log(result);
+      result.data.forEach(license => {
+        let l: LicenseStatusModel = {
+          availableCount: license.report.used,
+          expiredCount: license.report.expired,
+          inuseCount: license.report.active,
+          name: license.name
+        }
+        this.licenseStatus.push(l);
+      });
+    })
+  }
+  getModels() {
+    this.dashboardService.getModelStatus().subscribe(result => {
+      // console.log(result)
+      for (let model in result.data.model) {
+        // console.log(model);
+        let m: DeviceModelSummaryModel = {
+          name: model,
+          count: result.data.model[model]
+        }
+        this.deviceModelSummaries.push(m);
+      }
+    });
+  }
+  getDeviceStatus() {
+    this.dashboardService.getDeviceStatus().subscribe(result => {
+      this.deviceSummary = {
+        registedCount: result.data.total,
+        activeCount: result.data.total - result.data.inactive,
+        onlineCount: result.data.online,
+        enrolledCount: result.data.enrolled,
+      }
+    })
   }
 }

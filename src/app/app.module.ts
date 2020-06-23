@@ -1,3 +1,4 @@
+import { DashboardService } from './services/dashboard.service';
 import { UserService } from './services/user.service';
 /**
  * @license
@@ -58,7 +59,8 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
       useClass: AuthInterceptorService,
       multi: true
     },
-    UserService
+    UserService,
+    DashboardService
   ],
 
   bootstrap: [AppComponent],

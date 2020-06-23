@@ -61,16 +61,13 @@
       <nb-list>
         <nb-list-item>
           <!-- i18n="@@name" -->
-          <div class="col-lg-4"><b>Name</b></div>
-          <!-- i18n="@@online" -->
-          <div class="col-lg-4 text-center"><b>Online</b></div>
-          <!-- i18n="@@offline" -->
-          <div class="col-lg-4 text-center"><b>Offline</b></div>
+          <div class="col-lg-6"><b>Name</b></div>
+          <!-- i18n="@@count" -->
+          <div class="col-lg-6 text-center"><b>count</b></div>
         </nb-list-item>
         <nb-list-item *ngFor="let deviceModelSummary of deviceModelSummaries">
-          <div class="col-lg-4">{{deviceModelSummary.name}}</div>
-          <div class="col-lg-4 text-center">{{deviceModelSummary.online}}</div>
-          <div class="col-lg-4 text-center">{{deviceModelSummary.offline}}</div>
+          <div class="col-lg-6">{{deviceModelSummary.name}}</div>
+          <div class="col-lg-6 text-center">{{deviceModelSummary.count}}</div>
         </nb-list-item>
       </nb-list>
     </nb-card>
