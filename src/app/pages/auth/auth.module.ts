@@ -9,7 +9,9 @@ import {
   NbAlertModule,
   NbButtonModule,
   NbCheckboxModule,
-  NbInputModule
+  NbInputModule,
+  NbCardModule,
+  NbSpinnerModule
 } from '@nebular/theme';
 import { LoginComponent } from './login/login.component';
 
@@ -17,6 +19,8 @@ import { LoginComponent } from './login/login.component';
 @NgModule({
   imports: [
     CommonModule,
+    NbCardModule,
+    NbSpinnerModule,
     FormsModule,
     RouterModule,
     NbAlertModule,
@@ -24,7 +28,6 @@ import { LoginComponent } from './login/login.component';
     NbButtonModule,
     NbCheckboxModule,
     AuthRoutingModule,
-
     NbAuthModule,
   ],
   declarations: [
