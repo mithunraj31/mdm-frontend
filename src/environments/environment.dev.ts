@@ -10,6 +10,6 @@
 
 export const environment = {
     production: false,
-    host: "https://midmtest.mic.com.tw/api/"
+    host: "http://18.177.107.1:8010/proxy/api/"
   };
   
