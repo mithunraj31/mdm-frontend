@@ -1,3 +1,4 @@
+import { UserAccount } from './../../../@core/entities/UserAccount.model';
 import { UserService } from './../../../services/user.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
@@ -19,7 +20,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
   public readonly materialTheme$: Observable<boolean>;
   userPictureOnly: boolean = false;
-  user: any;
+  user: UserAccount;
 
   themes = [
     {
@@ -103,10 +104,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
       })
 
-    this.userS.getUserInfo().subscribe(result => {
-      console.log(result);
-    })
-
+      //get user info
+      this.user = this.userS.getLoggedUser();
   }
 
   ngOnDestroy() {
