@@ -1,3 +1,4 @@
+import { UserService } from './../../../services/user.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
 
@@ -49,8 +50,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentTheme = 'default';
 
-  userMenu = [{ title: 'Profile', data: { action : 'profile'} },
-  { title: 'Log out', data: { action:  'logout'} }];
+  userMenu = [{ title: 'Profile', data: { action: 'profile' } },
+  { title: 'Log out', data: { action: 'logout' } }];
 
   public constructor(
     private sidebarService: NbSidebarService,
@@ -60,7 +61,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private layoutService: LayoutService,
     private breakpointService: NbMediaBreakpointsService,
     private rippleService: RippleService,
-    private authService: AuthService
+    private authService: AuthService,
+    private userS: UserService
   ) {
     this.materialTheme$ = this.themeService.onThemeChange()
       .pipe(map(theme => {
@@ -95,11 +97,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
     this.menuService.onItemClick()
       .subscribe(clicked => {
-        if(clicked.item.data.action=='logout'){
+        if (clicked.item.data.action == 'logout') {
           this.authService.logout();
         }
 
       })
+
+    this.userS.getUserInfo().subscribe(result => {
+      console.log(result);
+    })
+
   }
 
   ngOnDestroy() {

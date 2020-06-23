@@ -20,7 +20,8 @@ export class LoginComponent {
 
     login() {
         this.authService.login(this.user).subscribe(result => {
-            console.log(result);
+
+            // console.log(result.headers.keys());
             if (result.code == 410) { // Invalid Email
                 console.log("Email invalid!");
             } else if (result.code == 411) { // Invalid Password

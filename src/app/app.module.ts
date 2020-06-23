@@ -1,3 +1,4 @@
+import { UserService } from './services/user.service';
 /**
  * @license
  * Copyright Akveo. All Rights Reserved.
@@ -57,6 +58,7 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
       useClass: AuthInterceptorService,
       multi: true
     },
+    UserService
   ],
 
   bootstrap: [AppComponent],

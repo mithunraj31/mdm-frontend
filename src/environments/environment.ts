@@ -10,5 +10,5 @@
 
 export const environment = {
   production: false,
-  host: "https://midmtest.mic.com.tw/api/"
+  host: "http://localhost:8010/proxy/api/"
 };

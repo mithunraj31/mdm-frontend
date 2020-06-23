@@ -10,5 +10,7 @@ export class UserService {
   host = environment.host;
   constructor(private http: HttpClient) { }
 
-
+  public getUserInfo(){
+    return this.http.get<any>(this.host+'stat/dbquery?db=device&fields=model&fields=model_online&fields=os&fields=carrier');
+  }
 }
