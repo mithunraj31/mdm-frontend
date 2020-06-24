@@ -130,36 +130,6 @@ export class GeneralComponent implements OnInit {
         value: 0
       }
 
-      this.relatedInfomation = [
-        {
-          key: 'Group',
-          value: '[技術部] MiDM評価用/APIテスト・評価用'
-        },
-        {
-          key: 'Owner',
-          value: 'Mithunraj mbel001@mbel.co.jp'
-        },
-        {
-          key: 'Profile',
-          value: '◇MiDM評価◇ 作成 尾松　Don\'t remove & modify'
-        },
-        {
-          key: 'Enrollment date',
-          value: 'May 20, 2020 12:39:24 PM'
-        },
-        {
-          key: 'Last checked in',
-          value: 'May 20, 2020 12:39:24 PM'
-        },
-        {
-          key: 'Registered date',
-          value: 'May 20, 2020 12:39:24 PM'
-        },
-        {
-          key: 'Last updated',
-          value: 'Jun 2, 2020 1:58:11 PM'
-        },
-      ];
     });
   }
 
@@ -308,6 +278,39 @@ export class GeneralComponent implements OnInit {
           value: result?.data?.license?.autoRenew || 'N/A'
         }
       ];
+
+      //Related Information
+      this.relatedInfomation = [
+        {
+          key: 'Group',
+          value: result?.data?.deviceProfiles[0]?.deviceProfileGroup?.profile?.name
+          +"/"+result?.data?.deviceGroup?.profile?.name,
+        },
+        {
+          key: 'Owner',
+          value: result?.data?.owner?.profile?.name || 'N/A'
+        },
+        {
+          key: 'Profile',
+          value: result?.data?.deviceProfiles[0]?.profile.name || 'N/A'
+        },
+        {
+          key: 'Enrollment date',
+          value: result?.data?.enrolled ? new Date(result?.data?.enrolled).toDateString() : 'N/A'
+        },
+        {
+          key: 'Last checked in',
+          value: result?.data?.lastCheckedIn ? new Date(result?.data?.lastCheckedIn).toDateString() : 'N/A'
+        },
+        {
+          key: 'Registered date',
+          value: result?.data?.created ? new Date(result?.data?.created).toDateString() : 'N/A'
+        },
+        {
+          key: 'Last updated',
+          value: result?.data?.updated ? new Date(result?.data?.updated).toDateString() : 'N/A'
+        },
+      ]; 
     },
       // When the deviceId from the url parameter is invalid
       // then status will return as 400
