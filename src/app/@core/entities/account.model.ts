@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // Account model use for storing MDM user data
 export class AccountModel {
     // the ID generated from backend API
@@ -7,3 +8,10 @@ export class AccountModel {
     // the password cannot receive from API, send only
     password?: string;
 }
+=======
+export interface Account {
+    email: string;
+    password: string;
+    eulaEnabled: boolean;
+}
+>>>>>>> master
