@@ -23,7 +23,6 @@ import {
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
-import { NgxAuthModule } from './pages/auth/auth.module';
 import { AuthService } from './auth/Auth.service';
 import { AuthGuardService } from './auth/auth-guard.service';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';

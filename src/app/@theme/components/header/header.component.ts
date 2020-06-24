@@ -58,12 +58,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private sidebarService: NbSidebarService,
     private menuService: NbMenuService,
     private themeService: NbThemeService,
-    private userService: UserData,
+    private userDataService: UserData, // ngx-admin service
     private layoutService: LayoutService,
     private breakpointService: NbMediaBreakpointsService,
     private rippleService: RippleService,
     private authService: AuthService,
-    private userS: UserService
+    private userService: UserService // mdm service
   ) {
     this.materialTheme$ = this.themeService.onThemeChange()
       .pipe(map(theme => {
@@ -75,7 +75,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.currentTheme = this.themeService.currentTheme;
 
-    this.userService.getUsers()
+    this.userDataService.getUsers()
       .pipe(takeUntil(this.destroy$))
       .subscribe((users: any) => this.user = users.nick);
 
@@ -98,14 +98,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
     this.menuService.onItemClick()
       .subscribe(clicked => {
-        if (clicked.item.data.action == 'logout') {
+        if (clicked &&
+          clicked.item && 
+          clicked.item.data &&
+          clicked.item.data.action == 'logout') {
           this.authService.logout();
         }
-
       })
 
-      //get user info
-      this.user = this.userS.getLoggedUser();
+    //get user info
+    this.user = this.userService.getLoggedUser();
   }
 
   ngOnDestroy() {

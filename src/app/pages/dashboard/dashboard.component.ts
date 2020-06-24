@@ -6,23 +6,61 @@ import { DeviceModelSummaryModel } from '../../@core/entities/device-model-summa
 import { LicenseStatusModel } from '../../@core/entities/license-status.mode';
 
 @Component({
-  selector: 'ngx-dashboard',
+  selector: 'mdm-dashboard',
   styleUrls: ['./dashboard.component.scss'],
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements AfterViewInit, OnInit {
-
+  // @variable deviceSummary: device status chart values
+  // obtain from backend api
+  // the object contains peroperties =>
+  // @property registedCount {number}
+  // @property activeCount {number}
+  // @property onlineCount {number}
+  // @property enrolledCount {number}
+  // @type {any}
   deviceSummary: any = {};
 
+  // @variable deviceActiveChartLegends: active deveice chart labels
+  // use for display labels on bottom of chart card
+  // config value at constructor
+  // @type {LegendItemModel[]}
   deviceActiveChartLegends: LegendItemModel[];
 
+  // @variable deviceOnlineChartLegends: online device chart labels
+  // use for display labels on bottom of chart card
+  // config value at constructor
+  // @type {LegendItemModel[]}
   deviceOnlineChartLegends: LegendItemModel[];
 
+  // @variable deviceEnrollmentChartLegends: enrolled device chart labels
+  // use for display labels on bottom of chart card
+  // config value at constructor
+  // @type {LegendItemModel[]}
   deviceEnrollmentChartLegends: LegendItemModel[];
 
+  // @variable deviceModelSummaries: device model status table data
+  // use for dispaly on table
+  // each model contain online, offince status
+  // @type {DeviceModelSummaryModel[]}
   deviceModelSummaries: DeviceModelSummaryModel[] = [];
 
+
+  // @variable licenseStatus: device model status table data
+  // use for dispaly on table
+  // each model contain license name and contract period
+  // @type {DeviceModelSummaryModel[]}
   licenseStatus: LicenseStatusModel[] = [];
+
+  // @variable dashboardSpinners: device status's display loading spinner fact
+  // each properties, data type is boolean
+  // assign the proeprty to nbSpinner Directive
+  // @type {any}
+  dashboardSpinners = {
+    statusChart: false,
+    modelTable: false,
+    licenseTable: false
+  };
 
   constructor(private dashboardService: DashboardService) {
 
@@ -59,58 +97,99 @@ export class DashboardComponent implements AfterViewInit, OnInit {
       },
     ];
 
+    // default value
     this.deviceSummary = {
-      registedCount: 3,
-      activeCount: 3,
-      onlineCount: 3,
-      enrolledCount: 3,
-    }
+      registedCount: 0,
+      activeCount: 0,
+      onlineCount: 0,
+      enrolledCount: 0,
+    };
   }
+
   ngOnInit(): void {
+    // while the component initializing 
+    // request dash data
     this.getLicense();
     this.getModels();
     this.getDeviceStatus();
   }
 
   ngAfterViewInit(): void {
-
-
   }
+
+  // @method getLicense: request license status from backend API
+  // to display license data table
+  // the method will eanble spinner
+  // then send http request for data from backend API
+  // mapping obtained data to model and assign to listings
+  // @return {void}
   getLicense() {
-    this.dashboardService.getLicense().subscribe(result => {
-      // console.log(result);
-      result.data.forEach(license => {
-        let l: LicenseStatusModel = {
-          availableCount: license.report.used,
-          expiredCount: license.report.expired,
-          inuseCount: license.report.active,
-          name: license.name
+    this.dashboardSpinners.licenseTable = true;
+    this.dashboardService.getLicense()
+      .subscribe(result => {
+        this.dashboardSpinners.licenseTable = false;
+        if (result && result.data) {
+          const licenses = result.data as any[];
+          this.licenseStatus = licenses.map(license => <LicenseStatusModel>{
+            availableCount: license.report.used,
+            expiredCount: license.report.expired,
+            inuseCount: license.report.active,
+            name: license.name
+          });
         }
-        this.licenseStatus.push(l);
+      }, error => {
+        this.dashboardSpinners.licenseTable = false;
       });
-    })
   }
+
+  // @method getModels: request device model status from backend API
+  // to display license data table
+  // the method will eanble spinner
+  // then send http request for data from backend API
+  // mapping obtained data to model and assign to listings
+  // @return {void}
   getModels() {
-    this.dashboardService.getModelStatus().subscribe(result => {
-      // console.log(result)
-      for (let model in result.data.model) {
-        // console.log(model);
-        let m: DeviceModelSummaryModel = {
-          name: model,
-          count: result.data.model[model]
+    this.dashboardSpinners.modelTable = true;
+    this.dashboardService.getModelStatus()
+      .subscribe(result => {
+        this.dashboardSpinners.modelTable = false;
+        if (result && result.data && result.data.model) {
+          const models = result.data.model;
+          this.deviceModelSummaries = Object.keys(models)
+            .map(key => <DeviceModelSummaryModel>{
+              name: key,
+              count: models[key]
+            });
         }
-        this.deviceModelSummaries.push(m);
-      }
-    });
+
+      }, error => {
+        this.dashboardSpinners.modelTable = false;
+      });
   }
+
+  // @method getDeviceStatus: request device status from backend API
+  // to display license data table
+  // the method will eanble spinner
+  // then send http request for data from backend API
+  // mapping obtained data to model and assign to listings
+  // @return {void}
   getDeviceStatus() {
-    this.dashboardService.getDeviceStatus().subscribe(result => {
-      this.deviceSummary = {
-        registedCount: result.data.total,
-        activeCount: result.data.total - result.data.inactive,
-        onlineCount: result.data.online,
-        enrolledCount: result.data.enrolled,
-      }
-    })
+    this.dashboardSpinners.statusChart = true;
+    this.dashboardService.getDeviceStatus()
+      .subscribe(result => {
+        this.dashboardSpinners.statusChart = false;
+        if (result && result.data) {
+          const totalCount: number = result.data.total || 0;
+
+          this.deviceSummary = {
+            registedCount: totalCount,
+            activeCount: totalCount - (result.data.inactive || 0),
+            onlineCount: result.data.online || 0,
+            enrolledCount: result.data.enrolled || 0,
+          }
+        }
+      }, error => {
+        this.dashboardSpinners.statusChart = false;
+      });
   }
 }
