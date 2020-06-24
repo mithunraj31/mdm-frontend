@@ -63,15 +63,6 @@ export class DashboardComponent implements OnInit {
   };
 
   constructor(private dashboardService: DashboardService) {
-
-
-    // default value
-    // this.deviceSummary = {
-    //   registedCount: 0,
-    //   activeCount: 0,
-    //   onlineCount: 0,
-    //   enrolledCount: 0,
-    // };
   }
 
   ngOnInit(): void {
@@ -80,8 +71,8 @@ export class DashboardComponent implements OnInit {
     this.getLicense();
     this.getModels();
     this.getDeviceStatus();
-    this.initCharts();
   }
+
   initCharts() {
     this.deviceActiveChartLegends = [
       {
@@ -186,7 +177,8 @@ export class DashboardComponent implements OnInit {
             activeCount: totalCount - (result.data.inactive || 0),
             onlineCount: result.data.online || 0,
             enrolledCount: result.data.enrolled || 0,
-          }
+          };
+          this.initCharts();
         }
       }, error => {
         this.dashboardSpinners.statusChart = false;
