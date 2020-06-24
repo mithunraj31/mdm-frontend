@@ -10,9 +10,6 @@ export class AuthInterceptorService implements HttpInterceptor {
   constructor(private auth: AuthService){}
   intercept(req: HttpRequest<any>,
     next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log("intercepter");
-
-
     const idToken = localStorage.getItem("id_token");
 
     if (idToken) {
@@ -30,7 +27,6 @@ export class AuthInterceptorService implements HttpInterceptor {
       return next.handle(authReq).pipe(
         tap(evt => {
           if (evt instanceof HttpResponse) {
-            console.log(evt.body.code );
             if (evt.body && evt.body.code == 415) {
               this.auth.logout();
             }

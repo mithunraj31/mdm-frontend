@@ -1,3 +1,4 @@
+import { DashboardService } from './services/dashboard.service';
 import { UserService } from './services/user.service';
 /**
  * @license
@@ -22,7 +23,6 @@ import {
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
-import { NgxAuthModule } from './pages/auth/auth.module';
 import { AuthService } from './auth/Auth.service';
 import { AuthGuardService } from './auth/auth-guard.service';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
@@ -58,7 +58,8 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
       useClass: AuthInterceptorService,
       multi: true
     },
-    UserService
+    UserService,
+    DashboardService
   ],
 
   bootstrap: [AppComponent],

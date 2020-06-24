@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-lg-3">
-    <nb-card>
+    <nb-card [nbSpinner]="dashboardSpinners.statusChart" nbSpinnerSize="giant" nbSpinnerStatus="primary">
       <!-- i18n="@@registedDevice" -->
       <nb-card-header>Registed devices</nb-card-header>
       <nb-card-body>
@@ -17,11 +17,11 @@
 </div>
 <div class="row">
   <div class="col-lg-4">
-    <nb-card>
+    <nb-card [nbSpinner]="dashboardSpinners.statusChart" nbSpinnerSize="giant" nbSpinnerStatus="primary">
       <!-- i18n="@@active" -->
       <nb-card-header>Active</nb-card-header>
       <nb-card-body>
-        <mdm-statistic-pie 
+        <mdm-statistic-pie *ngIf="deviceSummary && deviceSummary.activeCount >= 0"
          [value]="deviceSummary.activeCount" 
          [maxValue]="deviceSummary.registedCount" 
          [chartLegend]="deviceActiveChartLegends"></mdm-statistic-pie>
@@ -29,11 +29,11 @@
     </nb-card>
   </div>
   <div class="col-lg-4">
-    <nb-card>
+    <nb-card [nbSpinner]="dashboardSpinners.statusChart" nbSpinnerSize="giant" nbSpinnerStatus="primary">
       <!-- i18n="@@online" -->
       <nb-card-header>Online</nb-card-header>
       <nb-card-body>
-        <mdm-statistic-pie 
+        <mdm-statistic-pie *ngIf="deviceSummary && deviceSummary.onlineCount >= 0"
          [value]="deviceSummary.onlineCount" 
          [maxValue]="deviceSummary.registedCount"
          [chartLegend]="deviceOnlineChartLegends"></mdm-statistic-pie>
@@ -41,11 +41,11 @@
     </nb-card>
   </div>
   <div class="col-lg-4">
-    <nb-card>
+    <nb-card [nbSpinner]="dashboardSpinners.statusChart" nbSpinnerSize="giant" nbSpinnerStatus="primary">
        <!-- i18n="@@enrollment" -->
       <nb-card-header>Enrollment</nb-card-header>
       <nb-card-body>
-        <mdm-statistic-pie 
+        <mdm-statistic-pie *ngIf="deviceSummary && deviceSummary.enrolledCount >= 0"
          [value]="deviceSummary.enrolledCount" 
          [maxValue]="deviceSummary.registedCount"
          [chartLegend]="deviceEnrollmentChartLegends"></mdm-statistic-pie>
@@ -55,28 +55,25 @@
 </div>
 <div class="row">
   <div class="col-lg-6">
-    <nb-card>
+    <nb-card [nbSpinner]="dashboardSpinners.modelTable" nbSpinnerSize="giant" nbSpinnerStatus="primary">
       <!-- i18n="@@model" -->
       <nb-card-header>Model</nb-card-header>
       <nb-list>
         <nb-list-item>
           <!-- i18n="@@name" -->
-          <div class="col-lg-4"><b>Name</b></div>
-          <!-- i18n="@@online" -->
-          <div class="col-lg-4 text-center"><b>Online</b></div>
-          <!-- i18n="@@offline" -->
-          <div class="col-lg-4 text-center"><b>Offline</b></div>
+          <div class="col-lg-6"><b>Name</b></div>
+          <!-- i18n="@@count" -->
+          <div class="col-lg-6 text-center"><b>count</b></div>
         </nb-list-item>
         <nb-list-item *ngFor="let deviceModelSummary of deviceModelSummaries">
-          <div class="col-lg-4">{{deviceModelSummary.name}}</div>
-          <div class="col-lg-4 text-center">{{deviceModelSummary.online}}</div>
-          <div class="col-lg-4 text-center">{{deviceModelSummary.offline}}</div>
+          <div class="col-lg-6">{{deviceModelSummary.name}}</div>
+          <div class="col-lg-6 text-center">{{deviceModelSummary.count}}</div>
         </nb-list-item>
       </nb-list>
     </nb-card>
   </div>
   <div class="col-lg-6">
-    <nb-card>
+    <nb-card [nbSpinner]="dashboardSpinners.licenseTable " nbSpinnerSize="giant" nbSpinnerStatus="primary">
       <!-- i18n="@@licenseStatus" -->
       <nb-card-header>License status</nb-card-header>
       <nb-list>

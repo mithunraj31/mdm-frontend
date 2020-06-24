@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbCardModule, NbListModule } from '@nebular/theme';
+import { NbCardModule, NbListModule, NbSpinnerModule } from '@nebular/theme';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { ThemeModule } from '../../@theme/theme.module';
@@ -13,6 +13,7 @@ import { DashboardLegendChartComponent } from './legend-chart/legend-chart.compo
     ThemeModule,
     NgxEchartsModule,
     NbListModule,
+    NbSpinnerModule,
   ],
   declarations: [
     DashboardComponent,
