@@ -14,6 +14,8 @@ import {
   NbIconModule,
   NbThemeModule,
   NbSpinnerModule,
+  NbToggleModule,
+  NbCardModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbSecurityModule } from '@nebular/security';
@@ -62,6 +64,8 @@ const NB_MODULES = [
   NbIconModule,
   NbEvaIconsModule,
   NbSpinnerModule,
+  NbToggleModule,
+  NbCardModule,
 ];
 const COMPONENTS = [
   GroupManagementPanelComponent,

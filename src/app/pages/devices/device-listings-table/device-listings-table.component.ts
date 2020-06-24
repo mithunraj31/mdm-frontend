@@ -6,6 +6,7 @@ import { AccountModel } from '../../../@core/entities/account.model';
 import { LicenseModel } from '../../../@core/entities/license.model';
 import { NbToggleWraperComponent } from '../../../@theme/components/nebular-wraper/mdm-toggle.component';
 import { AddDeviceManualModalComponent } from '../add-device-manual-modal/add-device-manual-modal.component';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'mdm-device-listings-table',
@@ -23,7 +24,8 @@ export class DeviceListingsTableComponent {
 
     @Input() groups: any[];
 
-    constructor(private dialogService: NbDialogService) {
+    constructor(private dialogService: NbDialogService,
+        private router: Router) {
 
         this.tableSettings = {
             // hide create, update, and delete row buttons from ng2-smart-table
@@ -83,5 +85,9 @@ export class DeviceListingsTableComponent {
                 deviceGroups: this.groups
             }
         });
+    }
+
+    onDeviceRowClick($event: any) {
+        this.router.navigateByUrl('./' + $event.data.id);
     }
 }
