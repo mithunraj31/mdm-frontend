@@ -12,25 +12,25 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
     styles: ['.error-message { color: red; }']
 })
 export class LoginComponent {
-    // @variable form: Login from group
+    // @property form: Login from group
     // config form validataion for login email and password
     // initial in class constructor
     // @type {FormGroup}
     form: FormGroup;
 
-    // @variable user: login user data model
+    // @property user: login user data model
     // store data from login form
     // the model contains email, password and keep signin fact
     // use for login request to MiDM backend API
     // @type {LoginUser}
     user: LoginUser;
 
-    // @variable isLoading: http request is processing fact
+    // @property isLoading: http request is processing fact
     // use for display and drop loading spiner on login form submit button
     // @type {boolean}
     isLoading: boolean = false;
 
-    // @variable errorMessages: error message listings
+    // @property errorMessages: error message listings
     // when http response some error will add text to the variable
     // then display on top of login form
     // @type {string[]}

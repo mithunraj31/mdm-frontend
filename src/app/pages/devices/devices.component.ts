@@ -1,5 +1,6 @@
 import { Component, ViewChild, TemplateRef } from '@angular/core';
 import { DeviceModel } from '../../@core/entities/device.model';
+import { NbComponentStatus, NbGlobalPhysicalPosition, NbToastrService } from '@nebular/theme';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class DevicesComponent {
   // then pass obtained data the its child components
   groupNodes: any[];
 
-  constructor() {
+  constructor(private toasterService: NbToastrService) {
 
     // mockup data will remove after the component can obtain data from API
     this.deviceListings = [
@@ -122,5 +123,17 @@ export class DevicesComponent {
         ]
       }
     ];
+  }
+
+  
+  deleteGroup(group: any) {
+
+    // status can be 'basic' | 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'control'
+    let status: NbComponentStatus = 'success';
+
+    // notify user via toast message
+    this.toasterService.show(status, 'some message', {
+      position: NbGlobalPhysicalPosition.TOP_RIGHT
+    });
   }
 }

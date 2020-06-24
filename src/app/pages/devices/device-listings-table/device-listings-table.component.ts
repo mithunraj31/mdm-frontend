@@ -7,6 +7,8 @@ import { LicenseModel } from '../../../@core/entities/license.model';
 import { NbToggleWraperComponent } from '../../../@theme/components/nebular-wraper/mdm-toggle.component';
 import { AddDeviceManualModalComponent } from '../add-device-manual-modal/add-device-manual-modal.component';
 import { Router } from '@angular/router';
+import { BasicDeviceInfoModel } from '../../../@core/entities/basic-device-info.mode';
+import { SmartTableLinkComponent } from '../../../@theme/components/smart-table-link/smart-table-link.component';
 
 @Component({
     selector: 'mdm-device-listings-table',
@@ -14,7 +16,7 @@ import { Router } from '@angular/router';
     templateUrl: './device-listings-table.component.html',
 })
 export class DeviceListingsTableComponent {
-    // tableSettings: use for config UI of ng2-smart-table
+    // @property tableSettings: use for config UI of ng2-smart-table
     tableSettings: any = {};
 
     // deviceListings: use for retrive device listings data  in device listings table (ng2-smart-table)
@@ -22,6 +24,10 @@ export class DeviceListingsTableComponent {
     // API reference: GET api/devices
     @Input() listings: DeviceModel[];
 
+    // @varobale groups: group infomation listings
+    // the data obtain from parent component
+    // then pass the data to AddDeviceManualModalComponent
+    // @type {any[]}
     @Input() groups: any[];
 
     constructor(private dialogService: NbDialogService,
@@ -40,6 +46,15 @@ export class DeviceListingsTableComponent {
             columns: {
                 serialNumber: {
                     title: 'Serial number',
+                    type: 'custom',
+                    filter: false,
+                    renderComponent: SmartTableLinkComponent,
+                    // use for listening component events.
+                    onComponentInitFunction : (instance: any) =>  {
+                        instance.onClicked.subscribe(response => {
+                            this.router.navigate([`./${response.id}`]);
+                        });
+                    },
                 },
                 group: {
                     title: 'Group name',
@@ -71,23 +86,31 @@ export class DeviceListingsTableComponent {
                     filter: false,
                     renderComponent: NbToggleWraperComponent,
                     // use for listening component events.
-                    onComponentInitFunction(instance: any) {
-
+                    onComponentInitFunction : (instance: any) =>  {
+                        instance.onSwitched.subscribe(event => {
+                            // on enabled
+                            // do stuff
+                        });
                     },
                 },
             },
         };
     }
 
+    // @method onAddDeviceManualButtonClick: open add device manually modal
+    // when user click add device button will trigger the method
+    // call NbDialogService to display form modal and attach group listings
+    // for group selector in the form 
+    // Observer close model event if user submited form 
+    // observable will return  BasicDeviceInfoModel
+    // if dismiss will return undefined
     onAddDeviceManualButtonClick() {
         this.dialogService.open(AddDeviceManualModalComponent, {
             context: {
                 deviceGroups: this.groups
             }
+        }).onClose.subscribe((basicInfo: BasicDeviceInfoModel) => {
+            // do something for create the data
         });
-    }
-
-    onDeviceRowClick($event: any) {
-        this.router.navigateByUrl('./' + $event.data.id);
     }
 }

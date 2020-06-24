@@ -49,6 +49,8 @@ import { NbToggleWraperComponent } from './components/nebular-wraper/mdm-toggle.
 import { SelectGroupModalComponent } from './components/select-group-modal/select-group-modal.component';
 import { GroupManagementPanelComponent } from './components/group-management-panel/group-management-panel.component';
 import { TreeModule } from 'angular-tree-component';
+import { ConfirmModalComponent } from './components/confirm-modal/cofirm-modal.component';
+import { SmartTableLinkComponent } from './components/smart-table-link/smart-table-link.component';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -79,7 +81,8 @@ const COMPONENTS = [
   TwoColumnsLayoutComponent,
   NbToggleWraperComponent,
   SelectGroupModalComponent,
-
+  ConfirmModalComponent,
+  SmartTableLinkComponent,
 ];
 const PIPES = [
   CapitalizePipe,

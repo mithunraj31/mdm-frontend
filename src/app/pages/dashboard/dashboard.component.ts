@@ -11,7 +11,7 @@ import { LicenseStatusModel } from '../../@core/entities/license-status.mode';
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit {
-  // @variable deviceSummary: device status chart values
+  // @property deviceSummary: device status chart values
   // obtain from backend api
   // the object contains peroperties =>
   // @property registedCount {number}
@@ -21,38 +21,38 @@ export class DashboardComponent implements OnInit {
   // @type {any}
   deviceSummary: any = {};
 
-  // @variable deviceActiveChartLegends: active deveice chart labels
+  // @property deviceActiveChartLegends: active deveice chart labels
   // use for display labels on bottom of chart card
   // config value at constructor
   // @type {LegendItemModel[]}
   deviceActiveChartLegends: LegendItemModel[];
 
-  // @variable deviceOnlineChartLegends: online device chart labels
+  // @property deviceOnlineChartLegends: online device chart labels
   // use for display labels on bottom of chart card
   // config value at constructor
   // @type {LegendItemModel[]}
   deviceOnlineChartLegends: LegendItemModel[];
 
-  // @variable deviceEnrollmentChartLegends: enrolled device chart labels
+  // @property deviceEnrollmentChartLegends: enrolled device chart labels
   // use for display labels on bottom of chart card
   // config value at constructor
   // @type {LegendItemModel[]}
   deviceEnrollmentChartLegends: LegendItemModel[];
 
-  // @variable deviceModelSummaries: device model status table data
+  // @property deviceModelSummaries: device model status table data
   // use for dispaly on table
   // each model contain online, offince status
   // @type {DeviceModelSummaryModel[]}
   deviceModelSummaries: DeviceModelSummaryModel[] = [];
 
 
-  // @variable licenseStatus: device model status table data
+  // @property licenseStatus: device model status table data
   // use for dispaly on table
   // each model contain license name and contract period
   // @type {DeviceModelSummaryModel[]}
   licenseStatus: LicenseStatusModel[] = [];
 
-  // @variable dashboardSpinners: device status's display loading spinner fact
+  // @property dashboardSpinners: device status's display loading spinner fact
   // each properties, data type is boolean
   // assign the proeprty to nbSpinner Directive
   // @type {any}

@@ -1,28 +1,36 @@
 <nb-card>
     <nb-card-header>Device information</nb-card-header>
     <nb-card-body>
-        <form>
-            <div class="form-group">
-                <label class="label">Serial number</label>
-                <input type="text" nbInput fullWidth status="basic" placeholder="serial number">
+        <!-- <form #addForm="form"> -->
+        <div class="form-group">
+            <label class="label">Serial number</label>
+            <input type="text" nbInput fullWidth status="basic" name="serialNumber" [(ngModel)]="basicInfo.serialNumber"
+                placeholder="serial number">
+        </div>
+        <div class="form-group">
+            <label class="label">Deviec group</label>
+            <div>{{basicInfo.groupName}} <i class="fas fa-pen" (click)="onSelectGroupClick()"></i></div>
+        </div>
+        <div class="form-group">
+            <label class="label">Email address</label>
+            <input type="text" nbInput fullWidth status="basic" name="emailAddress" [(ngModel)]="basicInfo.email"
+                placeholder="email address">
+        </div>
+        <div class="form-group">
+            <label class="label">License</label>
+            <nb-select fullWidth [(ngModel)]="basicInfo.licenseId">
+                <nb-option *ngFor="let license in licenses" value="{{license.id}}">{{license.name}}</nb-option>
+            </nb-select>
+        </div>
+        <div class="form-group" *ngIf="basicInfo.licenseId">
+            <div class="form-control-group">
+                <nb-checkbox name="autoRenew" [(ngModel)]="basicInfo.autoRenew">auto renew</nb-checkbox>
             </div>
-            <div class="form-group">
-                <label class="label">Deviec group</label>
-                <div>{{selectedGroup.name}} <i class="fas fa-pen" (click)="onSelectGroupClick()"></i></div>
-            </div>
-            <div class="form-group">
-                <label class="label">Email address</label>
-                <input type="text" nbInput fullWidth status="basic" placeholder="email address">
-            </div>
-            <div class="form-group">
-                <label class="label">License</label>
-                <nb-select fullWidth>
-                    <nb-option *ngFor="let license in licenses" value="{{license.id}}">{{license.name}}</nb-option>
-                </nb-select>
-            </div>
-        </form>
+
+        </div>
+        <!-- </form> -->
     </nb-card-body>
     <nb-card-footer class="text-right">
-        <button nbButton status="primary">save</button>
+        <button nbButton status="primary" (click)="onSubmit()">save</button>
     </nb-card-footer>
 </nb-card>
