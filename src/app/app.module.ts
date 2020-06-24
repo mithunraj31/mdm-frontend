@@ -1,3 +1,4 @@
+import { DeviceService } from './../../services/Device-service.service';
 import { UserService } from './services/user.service';
 /**
  * @license
@@ -58,7 +59,8 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
       useClass: AuthInterceptorService,
       multi: true
     },
-    UserService
+    UserService,
+    DeviceService
   ],
 
   bootstrap: [AppComponent],
