@@ -10,7 +10,7 @@ import { LicenseStatusModel } from '../../@core/entities/license-status.mode';
   styleUrls: ['./dashboard.component.scss'],
   templateUrl: './dashboard.component.html',
 })
-export class DashboardComponent implements AfterViewInit, OnInit {
+export class DashboardComponent implements OnInit {
   // @variable deviceSummary: device status chart values
   // obtain from backend api
   // the object contains peroperties =>
@@ -64,6 +64,25 @@ export class DashboardComponent implements AfterViewInit, OnInit {
 
   constructor(private dashboardService: DashboardService) {
 
+
+    // default value
+    // this.deviceSummary = {
+    //   registedCount: 0,
+    //   activeCount: 0,
+    //   onlineCount: 0,
+    //   enrolledCount: 0,
+    // };
+  }
+
+  ngOnInit(): void {
+    // while the component initializing 
+    // request dash data
+    this.getLicense();
+    this.getModels();
+    this.getDeviceStatus();
+    this.initCharts();
+  }
+  initCharts() {
     this.deviceActiveChartLegends = [
       {
         iconColor: NgxLegendItemColor.YELLOW,
@@ -97,26 +116,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
       },
     ];
 
-    // default value
-    this.deviceSummary = {
-      registedCount: 0,
-      activeCount: 0,
-      onlineCount: 0,
-      enrolledCount: 0,
-    };
   }
-
-  ngOnInit(): void {
-    // while the component initializing 
-    // request dash data
-    this.getLicense();
-    this.getModels();
-    this.getDeviceStatus();
-  }
-
-  ngAfterViewInit(): void {
-  }
-
   // @method getLicense: request license status from backend API
   // to display license data table
   // the method will eanble spinner
