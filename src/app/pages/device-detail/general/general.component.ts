@@ -130,37 +130,6 @@ export class GeneralComponent implements OnInit {
         value: 0
       }
 
-      // this.basicInformation = [
-      //   {
-      //     key: 'Model number',
-      //     value: 'F740'
-      //   },
-      //   {
-      //     key: 'Serial Number',
-      //     value: 'G7P97J00022'
-      //   },
-      //   {
-      //     key: 'Status',
-      //     value: 'Off-line'
-      //   },
-      //   {
-      //     key: 'Os version',
-      //     value: '6.0.1'
-      //   },
-      //   {
-      //     key: 'Kernel version',
-      //     value: '3.10.49-ga5f0b3a buildmach@ea79cf5cdd7a #1 Tue Oct 15 03:00:59 UTC 2019'
-      //   },
-      //   {
-      //     key: 'Build number',
-      //     value: 'R33.1.5646.1015'
-      //   },
-      //   {
-      //     key: 'Model type',
-      //     value: 'N564'
-      //   },
-      // ];
-
       this.relatedInfomation = [
         {
           key: 'Group',
@@ -191,78 +160,6 @@ export class GeneralComponent implements OnInit {
           value: 'Jun 2, 2020 1:58:11 PM'
         },
       ];
-
-      this.license = [
-        {
-          key: 'Model',
-          value: '1 Year'
-        },
-        {
-          key: 'Assigned',
-          value: 'May 20, 2020'
-        },
-        {
-          key: 'Activated',
-          value: 'Aug 6, 2019'
-        },
-        {
-          key: 'expiry',
-          value: 'Aug 7, 2020'
-        },
-        {
-          key: 'Auto renew',
-          value: 'false'
-        }
-      ];
-
-      this.wifiDetails = [
-        {
-          key: 'Enabled',
-          value: 'true'
-        },
-        {
-          key: 'WiFi MAC address',
-          value: '00:22:4d:eb:d1:42'
-        },
-      ];
-
-      this.bluetoothDetails = [
-        {
-          key: 'Enabled',
-          value: 'true'
-        },
-        {
-          key: 'Bluetooth name',
-          value: 'QCOM-BTD'
-        },
-        {
-          key: 'Bluetooth MAC address',
-          value: '22:22:A5:4E:C5:DC'
-        },
-      ];
-
-      this.phoneDetails = [
-        {
-          key: 'Phone carrier',
-          value: 'IIJ'
-        },
-        {
-          key: 'Phone number',
-          value: ''
-        },
-        {
-          key: 'ICCID',
-          value: '440030010903766'
-        },
-        {
-          key: 'Data enabled',
-          value: 'true'
-        },
-        {
-          key: 'Data roaming enabledd',
-          value: 'true'
-        },
-      ];
     });
   }
 
@@ -285,20 +182,20 @@ export class GeneralComponent implements OnInit {
       let totalMemory: number = result?.data?.profile?.hardware_info?.memory?.total || 0;
       let freeMemory: number = result?.data?.profile?.hardware_info?.memory?.free || 0;
       let usedMemory: number = totalMemory - freeMemory > 0 ? totalMemory - freeMemory : 0;
-      let usedMemoryPercentage: number = +(usedMemory/ totalMemory* 100).toFixed(0);
+      let usedMemoryPercentage: number = +(usedMemory / totalMemory * 100).toFixed(0);
 
       this.memoryUsageChart.description = this.formatBytes(usedMemory) + " / " + this.formatBytes(totalMemory)
       this.memoryUsageChart.value = usedMemoryPercentage;
 
       // Battery chart values
-      this.batteryChart.description = result?.data?.profile?.hardware_info?.battery.isCharging==true?'Charging':'Not Charging';
+      this.batteryChart.description = result?.data?.profile?.hardware_info?.battery.isCharging == true ? 'Charging' : 'Not Charging';
       this.batteryChart.value = result?.data?.profile?.hardware_info?.battery?.level || 0;
 
       // Wifi chart Data Usage
-      this.wifiChart.description = 
-      this.formatBytes(result?.data?.profile?.network?.dataUsage?.wifi?.rx+result?.data?.profile?.network?.dataUsage?.wifi?.tx)
-        + " ("+ new Date(result?.data?.profile?.network?.dataUsage?.wifi?.from).toDateString()
-        + " - "+ new Date(result?.data?.profile?.network?.dataUsage?.wifi?.to).toDateString()
+      this.wifiChart.description =
+        this.formatBytes(result?.data?.profile?.network?.dataUsage?.wifi?.rx + result?.data?.profile?.network?.dataUsage?.wifi?.tx)
+        + " (" + new Date(result?.data?.profile?.network?.dataUsage?.wifi?.from).toDateString()
+        + " - " + new Date(result?.data?.profile?.network?.dataUsage?.wifi?.to).toDateString()
         + ")";
 
       // Basic Information
@@ -313,7 +210,7 @@ export class GeneralComponent implements OnInit {
         },
         {
           key: 'Status',
-          value: result?.data?.states?.isOnline?'Online':'Offline'
+          value: result?.data?.states?.isOnline ? 'Online' : 'Offline'
         },
         {
           key: 'Os version',
@@ -331,6 +228,85 @@ export class GeneralComponent implements OnInit {
           key: 'Model type',
           value: result?.data?.profile?.hardware_info?.product_id || 'N/A'
         },
+      ];
+
+      // Network Information
+      // Wifi information 
+      this.wifiDetails = [
+        {
+          key: 'Enabled',
+          value: result?.data?.profile?.network?.wifi?.enabled || 'N/A'
+        },
+        {
+          key: 'WiFi MAC address',
+          value: result?.data?.profile?.network?.wifi?.mac_address || 'N/A'
+        },
+      ];
+
+      // Network Information
+      // Bluetooth information 
+      this.bluetoothDetails = [
+        {
+          key: 'Enabled',
+          value: result?.data?.profile?.network?.bluetooth?.enabled || 'N/A'
+        },
+        {
+          key: 'Bluetooth name',
+          value: result?.data?.profile?.network?.bluetooth?.name || 'N/A'
+        },
+        {
+          key: 'Bluetooth MAC address',
+          value: result?.data?.profile?.network?.bluetooth?.mac_address || 'N/A'
+        },
+      ];
+
+      // Network Information
+      // Phone information 
+      this.phoneDetails = [
+        {
+          key: 'Phone carrier',
+          value: result?.data?.profile?.network?.telephony?.carrier || 'N/A'
+        },
+        {
+          key: 'Phone number',
+          value: result?.data?.profile?.network?.telephony?.number || 'N/A'
+        },
+        {
+          key: 'ICCID',
+          value: result?.data?.profile?.network?.telephony?.iccid || 'N/A'
+        },
+        {
+          key: 'Data enabled',
+          value: result?.data?.profile?.network?.telephony?.data_enabled || 'N/A'
+        },
+        {
+          key: 'Data roaming enabled',
+          value: result?.data?.profile?.network?.telephony?.data_roaming_enabled || 'N/A'
+        },
+      ];
+
+      //License Information
+      this.license = [
+        {
+          key: 'Model',
+          value: '1 Year'
+        },
+        {
+          key: 'Assigned',
+          value: result?.data?.licensed ? new Date(result?.data?.licensed).toDateString() : 'N/A'
+        },
+        {
+          key: 'Activated',
+          value: result?.data?.license?.activatedAt ? new Date(result?.data?.licensed).toDateString() : 'N/A'
+        },
+        {
+          key: 'expiry',
+          value: result?.data?.license?.expiry ? new Date(result?.data?.license?.expiry).toDateString() : 'N/A'
+        },
+        {
+          key: 'Auto renew',
+          value: result?.data?.license?.autoRenew || 'N/A'
+        }
       ];
     },
       // When the deviceId from the url parameter is invalid
