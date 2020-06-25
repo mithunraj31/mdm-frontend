@@ -1,0 +1,7 @@
+<nb-card>
+    <nb-card-header>Select device group</nb-card-header>
+    <nb-card-body>
+        <tree-root [nodes]="groups" [options]="options" (activate)="onGroupSelected($event)">
+        </tree-root>
+    </nb-card-body>
+</nb-card>

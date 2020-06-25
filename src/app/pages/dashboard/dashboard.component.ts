@@ -3,7 +3,7 @@ import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { LegendItemModel } from '../../@core/entities/legend-item.model';
 import { NgxLegendItemColor } from '../../@core/enums/enum.legend-item-color';
 import { DeviceModelSummaryModel } from '../../@core/entities/device-model-summary.mode';
-import { LicenseStatusModel } from '../../@core/entities/license-status.mode';
+import { LicenseStatusModel } from '../../@core/entities/license-status.model';
 
 @Component({
   selector: 'mdm-dashboard',

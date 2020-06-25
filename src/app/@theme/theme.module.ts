@@ -13,6 +13,11 @@ import {
   NbSelectModule,
   NbIconModule,
   NbThemeModule,
+  NbToggleModule,
+  NbCardModule,
+  NbInputModule,
+  NbListModule,
+  
   NbSpinnerModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
@@ -30,7 +35,7 @@ import {
   PluralPipe,
   RoundPipe,
   TimingPipe,
-  NumberWithCommasPipe,
+  NumberWithCommasPipe
 } from './pipes';
 import {
   OneColumnLayoutComponent,
@@ -43,6 +48,12 @@ import { CORPORATE_THEME } from './styles/theme.corporate';
 import { DARK_THEME } from './styles/theme.dark';
 import { MATERIAL_LIGHT_THEME } from './styles/material/theme.material-light';
 import { MATERIAL_DARK_THEME } from './styles/material/theme.material-dark';
+import { NbToggleWraperComponent } from './components/nebular-wraper/mdm-toggle.component';
+import { SelectGroupModalComponent } from './components/select-group-modal/select-group-modal.component';
+import { GroupManagementPanelComponent } from './components/group-management-panel/group-management-panel.component';
+import { TreeModule } from 'angular-tree-component';
+import { VerticalDetailComponent } from './components/vertical-details/vertical-details.component';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -57,9 +68,17 @@ const NB_MODULES = [
   NbSelectModule,
   NbIconModule,
   NbEvaIconsModule,
+  NbToggleModule,
+  NbCardModule,
+  NbButtonModule,
+  NbInputModule,
+  NbSelectModule,
+  NbListModule,
   NbSpinnerModule,
 ];
 const COMPONENTS = [
+  VerticalDetailComponent,
+  GroupManagementPanelComponent,
   SwitcherComponent,
   LayoutDirectionSwitcherComponent,
   HeaderComponent,
@@ -68,6 +87,8 @@ const COMPONENTS = [
   OneColumnLayoutComponent,
   ThreeColumnsLayoutComponent,
   TwoColumnsLayoutComponent,
+  NbToggleWraperComponent,
+  SelectGroupModalComponent,
 ];
 const PIPES = [
   CapitalizePipe,
@@ -78,8 +99,8 @@ const PIPES = [
 ];
 
 @NgModule({
-  imports: [CommonModule, MatRippleModule, ...NB_MODULES],
-  exports: [CommonModule, MatRippleModule, ...PIPES, ...COMPONENTS],
+  imports: [CommonModule,Ng2SmartTableModule, MatRippleModule, TreeModule.forRoot(), ...NB_MODULES],
+  exports: [CommonModule, Ng2SmartTableModule, MatRippleModule, ...PIPES, ...COMPONENTS],
   declarations: [...COMPONENTS, ...PIPES],
 })
 export class ThemeModule {

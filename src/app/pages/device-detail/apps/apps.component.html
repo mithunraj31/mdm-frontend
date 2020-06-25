@@ -1,0 +1,18 @@
+<div class="row">
+    <div class="col-lg-3">
+      <nb-menu [items]="sideMenuItems">
+      </nb-menu>
+    </div>
+    <div class="col-lg-9 list-contianer">
+        <nb-list>
+            <nb-list-item *ngFor="let app of apps; let i = index">
+              <div class="row">
+                <div class="col-lg-12">
+                  <h5>{{ app.name }}</h5>
+                </div>
+                <div class="col-lg-12">{{ app.packageName }} | {{ app.versionName }} ({{ app.versionCode }})</div>
+              </div>
+            </nb-list-item>
+          </nb-list>
+    </div>
+</div>

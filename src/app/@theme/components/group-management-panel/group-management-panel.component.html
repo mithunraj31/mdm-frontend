@@ -1,0 +1,29 @@
+<nb-card>
+    <nb-card-header>
+        <div class="row">
+            <div class="col-lg-6">
+                <h5>{{title}}</h5>
+            </div>
+            <div class="col-lg-6 text-right">
+                <button nbButton status="primary" class="add-device-button" (click)="onAddGroupButtonClick()">
+                    <i class="fas fa-plus-square"></i>
+                </button>
+            </div>
+        </div>
+    </nb-card-header>
+    <nb-card-body>
+        <tree-root [nodes]="groups" [options]="options">
+            <ng-template #treeNodeTemplate let-node let-index="index">
+                <span *ngIf="!node.data.isEdit">{{ node.data.name }}</span>
+                <span *ngIf="node.data.isEdit">
+                    <input class="group-name-input" type="text" nbInput fieldSize="small" [(ngModel)]="node.data.name">
+                </span>
+                <span class="pull-right">
+                    <i class="fas fa-pen" (click)="node.data.isEdit = !node.data.isEdit" *ngIf="!node.data.isEdit"></i>
+                    <i class="fas fa-check" (click)="node.data.isEdit = !node.data.isEdit" *ngIf="node.data.isEdit"></i>
+                    <i class="fas fa-trash-alt" *ngIf="!node.data.isEdit"></i>
+                </span>
+            </ng-template>
+        </tree-root>
+    </nb-card-body>
+</nb-card>

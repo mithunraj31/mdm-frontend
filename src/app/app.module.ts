@@ -1,3 +1,4 @@
+import { DeviceService } from './../../services/Device-service.service';
 import { DashboardService } from './services/dashboard.service';
 import { UserService } from './services/user.service';
 /**
@@ -59,6 +60,7 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
       multi: true
     },
     UserService,
+    DeviceService,
     DashboardService
   ],
 

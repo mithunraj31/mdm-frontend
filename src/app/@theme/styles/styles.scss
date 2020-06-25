@@ -22,6 +22,8 @@
 @import './overrides';
 @import './material/material-overrides';
 
+@import '~angular-tree-component/dist/angular-tree-component.css';
+
 // install the framework and custom global styles
 @include nb-install() {
 
@@ -37,4 +39,8 @@
 
   @include nb-overrides();
   @include material-overrides();
-};
+}
+
+.device-online {
+  color: #5dc25d;
+}
