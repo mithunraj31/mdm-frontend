@@ -6,7 +6,7 @@ import { PercentPieModel } from '../../../@core/entities/percent-pie.model';
 @Component({
   selector: 'mdm-device-detail-general',
   templateUrl: './general.component.html',
-  styles: ['.list-contianer { padding-top: 0.5rem; }']
+  styleUrls: [ './general.component.scss' ]
 })
 export class GeneralComponent implements OnInit {
   // @variable deviceId: Device Id
@@ -89,6 +89,9 @@ export class GeneralComponent implements OnInit {
   // @type {PercentPieModel}
   batteryChart: PercentPieModel;
 
+  // fact when obtain device information from API, expand basic info accordion
+  isBasicInfoExpanded: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private deviceService: DeviceService) {
@@ -101,7 +104,7 @@ export class GeneralComponent implements OnInit {
   // when enter to details page will obtain some value
   // then use the value to specific device from Backend API
   ngOnInit() {
-
+    this.isBasicInfoExpanded = false;
     this.route.parent.params.subscribe(paramMap => {
       this.deviceId = paramMap.id;
 
@@ -180,7 +183,8 @@ export class GeneralComponent implements OnInit {
         },
         {
           key: 'Status',
-          value: result?.data?.states?.isOnline ? 'Online' : 'Offline'
+          value: result?.data?.states?.isOnline 
+          ? '<i class="fas fa-circle device-online"></i> Online' : '<i class="fas fa-circle"></i> Offline'
         },
         {
           key: 'Os version',
@@ -199,6 +203,8 @@ export class GeneralComponent implements OnInit {
           value: result?.data?.profile?.hardware_info?.product_id || 'N/A'
         },
       ];
+
+      this.isBasicInfoExpanded = true;
 
       // Network Information
       // Wifi information 
@@ -284,7 +290,7 @@ export class GeneralComponent implements OnInit {
         {
           key: 'Group',
           value: result?.data?.deviceProfiles[0]?.deviceProfileGroup?.profile?.name
-          +"/"+result?.data?.deviceGroup?.profile?.name,
+            + "/" + result?.data?.deviceGroup?.profile?.name,
         },
         {
           key: 'Owner',
@@ -310,7 +316,7 @@ export class GeneralComponent implements OnInit {
           key: 'Last updated',
           value: result?.data?.updated ? new Date(result?.data?.updated).toDateString() : 'N/A'
         },
-      ]; 
+      ];
     },
       // When the deviceId from the url parameter is invalid
       // then status will return as 400
