@@ -1,7 +1,12 @@
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { UserAccount } from './../../../@core/entities/UserAccount.model';
+import { DeviceService } from './../../../services/device.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NbMenuItem } from '@nebular/theme';
 import { LogModel } from '../../../@core/entities/log.model';
+import { LocalDataSource } from 'ng2-smart-table';
 
 @Component({
   selector: 'mdm-logs',
@@ -30,7 +35,14 @@ export class LogsComponent implements OnInit {
   // @type {NbMenuItem[]}
   sideMenuItems: NbMenuItem[] = [];
 
-  constructor(private route: ActivatedRoute) {
+  logs$: Observable<LogModel[]>;
+
+  source = new LocalDataSource();
+
+  constructor(
+    private route: ActivatedRoute,
+    private deviceService: DeviceService) {
+
     this.sideMenuItems = [
       {
         title: 'View all',
@@ -58,16 +70,15 @@ export class LogsComponent implements OnInit {
         },
         loggedAt: {
           title: 'Logged at',
-          // mapping date property for display format
-          valuePrepareFunction: (logged: Date) => {
-            return logged.toLocaleString();
+          valuePrepareFunction: (loggedAt: string) => {
+            return new Date(loggedAt).toDateString();
           },
         },
         owner: {
           title: 'Logged by',
           // mapping nested property of user data to display ownner name
-          valuePrepareFunction: (owner: Account) => {
-            return owner.displayName;
+          valuePrepareFunction: (owner: UserAccount) => {
+            return owner.name;
           },
         },
       },
@@ -83,47 +94,34 @@ export class LogsComponent implements OnInit {
     this.route.parent.params.subscribe(paramMap => {
       this.deviceId = paramMap.id;
 
-      this.logs = [
-        {
-          event: 'Trance',
-          loggedAt: new Date(),
-          message: 'App(com.atok.mobile.im.mbel.service 1.0.0(1)) has been added.',
-          owner: {
-            displayName: 'Pongpeera',
-            id: '',
-            rpDisplayName: '',
-          }
-        },
-        {
-          event: 'Update',
-          loggedAt: new Date(),
-          message: 'Device information has been updated',
-          owner: {
-            displayName: 'Pongpeera',
-            id: '',
-            rpDisplayName: '',
-          }
-        },
-        {
-          event: 'Update',
-          loggedAt: new Date(),
-          message: 'Notified to update profiles.',
-          owner: {
-            displayName: 'Pongpeera',
-            id: '',
-            rpDisplayName: '',
-          }
-        }, {
-          event: 'Trance',
-          loggedAt: new Date(),
-          message: 'Configuration profile \'◇MiDM評価◇ 作成 尾松　Don\'t remove & modify(d7fe88e4-8519-4711-b389-a49201ce9eb4)\' has been applied.',
-          owner: {
-            displayName: 'Pongpeera',
-            id: '',
-            rpDisplayName: '',
-          }
-        }
-      ];
     });
+    this.getLogs(this.deviceId, 0, 10);
+
+  }
+
+  // param "uuid" is Device ID which need to get logs
+  // param "page" & "size" is used to manage pagination
+  // response is containing "totalSize","size" and "totalPage" as well.
+  getLogs(uuid: string, page: number, size: number) {
+    this.logs$ = this.deviceService.getLogs(uuid, page, size).pipe(map(result => {
+      const logs: LogModel[] = [];
+      if (result?.data) {
+        result.data.forEach(log => {
+          // console.log(log);
+          let tempLog: LogModel = {
+            event: log.category || '',
+            loggedAt: log.loggedAt || '',
+            message: log.log || '',
+            owner: {
+              name: log.logger?.profile?.name || '',
+              uuid: log.logger?.profile?.name || null,
+            }
+          }
+          logs.push(tempLog);
+        });
+      }
+      return logs;
+    }
+    ));
   }
 }

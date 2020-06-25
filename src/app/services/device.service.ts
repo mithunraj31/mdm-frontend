@@ -17,4 +17,11 @@ export class DeviceService {
     getDeviceAll() {
         return this.http.get<any>(this.host + 'device/group/all');
     }
+    getInstalledApps(uuid: string) {
+        return this.http.get<any>(this.host + 'device/app/installed?deviceUuid=' + uuid);
+    }
+    getLogs(uuid: string, page: number, size: number) {
+        const params = `filter={"forWhat":"${uuid}"}&page=${page}&size=${size}`
+        return this.http.get<any>(this.host + 'logs/find?'+params);
+    }
 }

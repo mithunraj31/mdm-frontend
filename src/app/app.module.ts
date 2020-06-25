@@ -27,6 +27,7 @@ import { NgxAuthModule } from './pages/auth/auth.module';
 import { AuthService } from './auth/Auth.service';
 import { AuthGuardService } from './auth/auth-guard.service';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
+import { Ng2SmartTableModule,LocalDataSource } from 'ng2-smart-table';
 
 @NgModule({
   declarations: [AppComponent],
@@ -48,7 +49,8 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
     NbChatModule.forRoot({
       messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
     }),
-    CoreModule.forRoot()
+    CoreModule.forRoot(),
+    Ng2SmartTableModule
   ],
   providers:[
     AuthService,

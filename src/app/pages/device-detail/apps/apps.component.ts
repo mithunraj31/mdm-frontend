@@ -1,3 +1,4 @@
+import { DeviceService } from './../../../services/device.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AppModel } from '../../../@core/entities/app.model';
@@ -27,7 +28,9 @@ export class AppsComponent implements OnInit {
   // @type {string}
   deviceId: string;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(
+    private route: ActivatedRoute,
+    private deviceService: DeviceService) {
     this.sideMenuItems = [
       {
         title: 'Installed apps',
@@ -44,43 +47,31 @@ export class AppsComponent implements OnInit {
     // when enter to details page will obtain some value
     // then use the value to specific device from Backend API
     this.route.parent.params.subscribe(paramMap => {
-      
+
       // assign obtained parent route device ID to global veriable
       this.deviceId = paramMap.id
 
-      this.apps = [
-        {
-          name: 'スピードテスト　マスタープロ',
-          packageName: 'com.internet.speedtest.check.wifi.meter',
-          versionName: '1.23.2',
-          versionCode: '1.0'
-        },
-        {
-          name: 'ATOK',
-          packageName: 'com.justsystems.atokmobile.tv.service',
-          versionName: '1.8.15',
-          versionCode: '18'
-        },
-        {
-          name: 'トラックカーナビ',
-          packageName: 'com.navitime.local.mbeltruck',
-          versionName: '1.0.0',
-          versionCode: '1'
-        },
-        {
-          name: 'Wnn Keyboard Lab',
-          packageName: 'jp.co.omronsoft.wnnlab',
-          versionName: 'Lab-241',
-          versionCode: '2.4.1'
-
-        },
-        {
-          name: 'X-plore',
-          packageName: 'com.lonelycatgames.Xplore',
-          versionName: '4.17.00',
-          versionCode: '417'
-        },
-      ];
+      // get installed apps from API 
+      // and populate data
+      this.getInstalledApps(this.deviceId);
     });
+  }
+  getInstalledApps(uuid: string) {
+    this.deviceService.getInstalledApps(uuid).subscribe(result => {
+
+      if (result?.data?.apps) {
+        result.data.apps.forEach(app => {
+
+          let tempApp = {
+            name: app.label,
+            packageName: app.packageName,
+            versionName: app.versionName,
+            versionCode: app.versionCode
+          }
+
+          this.apps.push(tempApp);
+        });
+      }
+    })
   }
 }

@@ -3,7 +3,7 @@
       <nb-menu [items]="sideMenuItems">
       </nb-menu>
     </div>
-    <div class="col-lg-9 list-contianer list-contianer">
-      <ng2-smart-table [settings]="tableSettings" [source]="logs"></ng2-smart-table>
+    <div class="col-lg-9 list-contianer list-contianer" >
+      <ng2-smart-table [settings]="tableSettings" [source]="logs$ | async"></ng2-smart-table>
     </div>
 </div>
