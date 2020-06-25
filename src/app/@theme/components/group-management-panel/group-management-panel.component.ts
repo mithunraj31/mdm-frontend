@@ -1,6 +1,6 @@
 import { Component, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { TreeComponent } from 'angular-tree-component';
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogService, NbMenuItem, NbMenuService } from '@nebular/theme';
 import { ConfirmModalComponent } from '../confirm-modal/cofirm-modal.component';
 
 @Component({
@@ -32,12 +32,26 @@ export class GroupManagementPanelComponent {
     @ViewChild(TreeComponent)
     tree: TreeComponent;
 
-    //
+    // @variable sideMenuItems: Device application page tab side menu configuration
+    // the data contains menu title, prefixe icon class name and meni is active face
+    // @type {NbMenuItem[]}
+    sideMenuItems: NbMenuItem[] = []
+
+    @Output() onSelected = new EventEmitter();
     @Output() onDeleted = new EventEmitter();
     @Output() onChanged = new EventEmitter();
     @Output() onAdded = new EventEmitter();
 
-    constructor(private dialogService: NbDialogService) {
+    constructor(private dialogService: NbDialogService,
+        private menuService: NbMenuService) {
+
+        this.sideMenuItems = [
+            {
+                title: 'View all',
+                icon: 'list-outline',
+                selected: true
+            }
+        ];
         this.options = {
             allowDrag: (node: any) => node.isLeaf,
             allowDrop: (element: any, { parent, index }) => {
@@ -51,6 +65,22 @@ export class GroupManagementPanelComponent {
                 };
             }
         };
+        this.menuService.onItemClick().subscribe(item => {
+            if (item.tag == 'groupMenu') {
+                
+                const activedNode = this.tree.treeModel.getActiveNode();
+                activedNode.setIsActive(false);
+
+                this.sideMenuItems = [
+                    {
+                        title: 'View all',
+                        icon: 'list-outline',
+                        selected: true
+                    }
+                ];
+                // view all clicked
+            }
+        });
     }
 
     // onAddGroupButtonClick 
@@ -111,7 +141,7 @@ export class GroupManagementPanelComponent {
     // @parameter groupId {string}: group id
     // @return {void}
     onNameChanged($event: any, groupId: string) {
-        
+
         // find group by id
         // do it all group
         // @function iter: named function to use local process
@@ -123,13 +153,24 @@ export class GroupManagementPanelComponent {
             }
 
             // if children is not empty array, process again with children object
-            if (group.children && group.children.length > 0)  {
+            if (group.children && group.children.length > 0) {
                 group.children.forEach(iter);
             }
         });
 
         this.tree.treeModel.update();
         this.onChanged.emit(this.tree.treeModel.nodes as any);
+    }
+
+    onGroupSelected($event: any) {
+        this.sideMenuItems = [
+            {
+                title: 'View all',
+                icon: 'list-outline',
+                selected: false
+            }
+        ];
+        this.onSelected.emit($event);
     }
 
 }
