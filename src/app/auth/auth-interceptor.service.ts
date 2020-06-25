@@ -27,7 +27,8 @@ export class AuthInterceptorService implements HttpInterceptor {
       return next.handle(authReq).pipe(
         tap(evt => {
           if (evt instanceof HttpResponse) {
-            if (evt.body && evt.body.code == 415) {
+            console.log(evt.body.code );
+            if (evt.body && (evt.body.code == 415||evt.body.code == 400)) {
               this.auth.logout();
             }
           }

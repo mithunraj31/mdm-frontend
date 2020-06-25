@@ -1,0 +1,9 @@
+<div class="row">
+    <div class="col-lg-3">
+      <nb-menu [items]="sideMenuItems">
+      </nb-menu>
+    </div>
+    <div class="col-lg-9 list-contianer list-contianer" >
+      <ng2-smart-table [settings]="tableSettings" [source]="logs$ | async"></ng2-smart-table>
+    </div>
+</div>

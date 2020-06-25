@@ -1,0 +1,72 @@
+<div class="row list-contianer">
+  <div class="col-lg-3">
+    <mdm-percent-pie [title]="storageChart.title" [description]="storageChart.description"
+      [chartValue]="storageChart.value"></mdm-percent-pie>
+  </div>
+  <div class="col-lg-3">
+    <mdm-percent-pie [title]="memoryUsageChart.title" [description]="memoryUsageChart.description"
+      [chartValue]="memoryUsageChart.value"></mdm-percent-pie>
+  </div>
+  <div class="col-lg-3">
+    <mdm-percent-pie [title]="batteryChart.title" [description]="batteryChart.description"
+      [chartValue]="batteryChart.value"></mdm-percent-pie>
+  </div>
+  <div class="col-lg-3">
+    <mdm-percent-pie [title]="wifiChart.title" [description]="wifiChart.description" [chartValue]="wifiChart.value">
+    </mdm-percent-pie>
+  </div>
+</div>
+
+<nb-accordion>
+  <nb-accordion-item>
+    <nb-accordion-item-header>
+      Basic Information
+    </nb-accordion-item-header>
+    <nb-accordion-item-body>
+      <div class="col-lg-12">
+        <mdm-vertical-detail [source]="basicInformation"></mdm-vertical-detail>
+      </div>
+    </nb-accordion-item-body>
+  </nb-accordion-item>
+
+  <nb-accordion-item>
+    <nb-accordion-item-header>
+      Network
+    </nb-accordion-item-header>
+    <nb-accordion-item-body>
+      <nb-tabset>
+        <nb-tab tabTitle="WIFI">
+          <mdm-vertical-detail [source]="wifiDetails"></mdm-vertical-detail>
+        </nb-tab>
+        <nb-tab tabTitle="Bluetooth">
+          <mdm-vertical-detail [source]="bluetoothDetails"></mdm-vertical-detail>
+        </nb-tab>
+        <nb-tab tabTitle="Phone">
+          <mdm-vertical-detail [source]="phoneDetails"></mdm-vertical-detail>
+        </nb-tab>
+      </nb-tabset>
+    </nb-accordion-item-body>
+  </nb-accordion-item>
+
+  <nb-accordion-item>
+    <nb-accordion-item-header>
+      Related information
+    </nb-accordion-item-header>
+    <nb-accordion-item-body>
+      <div class="col-lg-12">
+        <mdm-vertical-detail [source]="relatedInfomation"></mdm-vertical-detail>
+      </div>
+    </nb-accordion-item-body>
+  </nb-accordion-item>
+
+  <nb-accordion-item>
+    <nb-accordion-item-header>
+      License
+    </nb-accordion-item-header>
+    <nb-accordion-item-body>
+      <div class="col-lg-12">
+        <mdm-vertical-detail [source]="license"></mdm-vertical-detail>
+      </div>
+    </nb-accordion-item-body>
+  </nb-accordion-item>
+</nb-accordion>

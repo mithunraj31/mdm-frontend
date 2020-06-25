@@ -16,6 +16,8 @@ import {
   NbSpinnerModule,
   NbToggleModule,
   NbCardModule,
+  NbInputModule,
+  NbListModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbSecurityModule } from '@nebular/security';
@@ -51,6 +53,8 @@ import { GroupManagementPanelComponent } from './components/group-management-pan
 import { TreeModule } from 'angular-tree-component';
 import { ConfirmModalComponent } from './components/confirm-modal/cofirm-modal.component';
 import { SmartTableLinkComponent } from './components/smart-table-link/smart-table-link.component';
+import { VerticalDetailComponent } from './components/vertical-details/vertical-details.component';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -68,8 +72,14 @@ const NB_MODULES = [
   NbSpinnerModule,
   NbToggleModule,
   NbCardModule,
+  NbButtonModule,
+  NbInputModule,
+  NbSelectModule,
+  NbListModule,
+  NbSpinnerModule,
 ];
 const COMPONENTS = [
+  VerticalDetailComponent,
   GroupManagementPanelComponent,
   SwitcherComponent,
   LayoutDirectionSwitcherComponent,
@@ -93,8 +103,8 @@ const PIPES = [
 ];
 
 @NgModule({
-  imports: [CommonModule, MatRippleModule, TreeModule.forRoot(), ...NB_MODULES],
-  exports: [CommonModule, MatRippleModule, ...PIPES, ...COMPONENTS],
+  imports: [CommonModule,Ng2SmartTableModule, MatRippleModule, TreeModule.forRoot(), ...NB_MODULES],
+  exports: [CommonModule, Ng2SmartTableModule, MatRippleModule, ...PIPES, ...COMPONENTS],
   declarations: [...COMPONENTS, ...PIPES],
 })
 export class ThemeModule {

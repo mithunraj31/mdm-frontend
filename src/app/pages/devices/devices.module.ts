@@ -13,6 +13,7 @@ import { AddDeviceManualModalComponent } from './add-device-manual-modal/add-dev
         ThemeModule,
         NbCardModule,
         Ng2SmartTableModule,
+        NbToggleModule,
         NbButtonModule,
         NbInputModule,
         NbSelectModule,
