@@ -1,5 +1,5 @@
 import { delay } from 'rxjs/operators';
-import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnChanges } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 
 declare const echarts: any;
@@ -20,7 +20,7 @@ declare const echarts: any;
     </nb-card>
   `,
 })
-export class PercentPieComponent implements AfterViewInit, OnDestroy {
+export class PercentPieComponent implements OnChanges, AfterViewInit, OnDestroy {
 
     @Input() title: string;
     @Input() description: string;
@@ -44,7 +44,15 @@ export class PercentPieComponent implements AfterViewInit, OnDestroy {
     constructor(private theme: NbThemeService) {
     }
 
+    ngOnChanges() {
+        this.initChart();
+    }
+
     ngAfterViewInit() {
+        this.initChart();
+    }
+
+    private initChart() {
         this.themeSubscription = this.theme.getJsTheme().pipe(delay(1)).subscribe(config => {
 
             const solarTheme: any = config.variables.solar;

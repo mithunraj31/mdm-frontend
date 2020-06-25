@@ -19,7 +19,6 @@ export class AddDeviceManualModalComponent {
     }
 
     onSelectGroupClick() {
-        console.log(this.deviceGroups);
         this.dialogService.open(SelectGroupModalComponent, { 
             context: {
                 groups: this.deviceGroups

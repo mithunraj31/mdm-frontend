@@ -98,7 +98,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
     this.menuService.onItemClick()
       .subscribe(clicked => {
-        if (clicked.item.data.action == 'logout') {
+        if (clicked?.item?.data?.action == 'logout') {
           this.authService.logout();
         }
       })

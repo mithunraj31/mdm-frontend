@@ -138,12 +138,11 @@ export class GeneralComponent implements OnInit {
 
   getGeneralDeviceDetails() {
     this.deviceService.getDeviceById(this.deviceId).subscribe(result => {
-      console.log(result);
       // Storage chart values
-      let totalStorage: number = result?.data?.profile?.hardware_info?.storages[0]?.total || 0;
-      let freeStorage: number = result?.data?.profile?.hardware_info?.storages[0]?.free || 0;
-      let usedStorage: number = totalStorage - freeStorage > 0 ? totalStorage - freeStorage : 0;
-      let usedStoragePercentage: number = +(usedStorage / totalStorage * 100).toFixed(0);
+      const totalStorage: number = result?.data?.profile?.hardware_info?.storages[0]?.total || 0;
+      const freeStorage: number = result?.data?.profile?.hardware_info?.storages[0]?.free || 0;
+      const usedStorage: number = totalStorage - freeStorage > 0 ? totalStorage - freeStorage : 0;
+      const usedStoragePercentage: number = +(usedStorage / totalStorage * 100).toFixed(0);
 
       this.storageChart = {
         title: result?.data?.profile?.hardware_info?.storages[0]?.name || 'N/A',
@@ -152,10 +151,10 @@ export class GeneralComponent implements OnInit {
       }
 
       // Memory chart Values
-      let totalMemory: number = result?.data?.profile?.hardware_info?.memory?.total || 0;
-      let freeMemory: number = result?.data?.profile?.hardware_info?.memory?.free || 0;
-      let usedMemory: number = totalMemory - freeMemory > 0 ? totalMemory - freeMemory : 0;
-      let usedMemoryPercentage: number = +(usedMemory / totalMemory * 100).toFixed(0);
+      const totalMemory: number = result?.data?.profile?.hardware_info?.memory?.total || 0;
+      const freeMemory: number = result?.data?.profile?.hardware_info?.memory?.free || 0;
+      const usedMemory: number = totalMemory - freeMemory > 0 ? totalMemory - freeMemory : 0;
+      const usedMemoryPercentage: number = +(usedMemory / totalMemory * 100).toFixed(0);
 
       this.memoryUsageChart.description = this.formatBytes(usedMemory) + " / " + this.formatBytes(totalMemory)
       this.memoryUsageChart.value = usedMemoryPercentage;
