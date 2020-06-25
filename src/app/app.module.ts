@@ -1,4 +1,5 @@
 import { DeviceService } from './../../services/Device-service.service';
+import { DashboardService } from './services/dashboard.service';
 import { UserService } from './services/user.service';
 /**
  * @license
@@ -23,7 +24,6 @@ import {
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
-
 import { AuthService } from './auth/Auth.service';
 import { AuthGuardService } from './auth/auth-guard.service';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
@@ -60,7 +60,8 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
       multi: true
     },
     UserService,
-    DeviceService
+    DeviceService,
+    DashboardService
   ],
 
   bootstrap: [AppComponent],

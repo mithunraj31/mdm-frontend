@@ -10,7 +10,6 @@ export class AuthInterceptorService implements HttpInterceptor {
   constructor(private auth: AuthService){}
   intercept(req: HttpRequest<any>,
     next: HttpHandler): Observable<HttpEvent<any>> {
-
     const idToken = localStorage.getItem("id_token");
 
     if (idToken) {
