@@ -41,6 +41,7 @@ export class GroupManagementPanelComponent {
     @Output() onDeleted = new EventEmitter();
     @Output() onChanged = new EventEmitter();
     @Output() onAdded = new EventEmitter();
+    @Output() onViewAllSelected = new EventEmitter();
 
     constructor(private dialogService: NbDialogService,
         private menuService: NbMenuService) {
@@ -69,16 +70,21 @@ export class GroupManagementPanelComponent {
             if (item.tag == 'groupMenu') {
                 
                 const activedNode = this.tree.treeModel.getActiveNode();
-                activedNode.setIsActive(false);
 
-                this.sideMenuItems = [
-                    {
-                        title: 'View all',
-                        icon: 'list-outline',
-                        selected: true
-                    }
-                ];
+                if (activedNode) {
+                    activedNode.setIsActive(false);
+                    this.sideMenuItems = [
+                        {
+                            title: 'View all',
+                            icon: 'list-outline',
+                            selected: true
+                        }
+                    ];
+                }
+
+               
                 // view all clicked
+                this.onViewAllSelected.emit();
             }
         });
     }
@@ -170,7 +176,7 @@ export class GroupManagementPanelComponent {
                 selected: false
             }
         ];
-        this.onSelected.emit($event);
+        this.onSelected.emit($event.node.data);
     }
 
 }
