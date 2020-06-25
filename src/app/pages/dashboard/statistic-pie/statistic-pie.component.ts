@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnChanges } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 import { delay, takeWhile } from 'rxjs/operators';
 import { LayoutService } from '../../../@core/utils/layout.service';
@@ -10,46 +10,13 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./statistic-pie.component.scss'],
   templateUrl: './statistic-pie.component.html',
 })
-export class DashboardStatisticPieComponent implements AfterViewInit, OnDestroy {
+export class DashboardStatisticPieComponent implements OnChanges, AfterViewInit, OnDestroy {
 
   private _alive = true;
-  // issue#: when component call ngAfterViewInit 
-  // NbThemeService.getJsTheme() subscribe faster than 
-  // the global varibles obtain data from parent component
-  // DashboardStatisticPieComponent.setOptions() will excute without chart value
-  // sometime the compoment will create wrong chart
 
-  // 1st solution
-  // create component input as observer 
-  // after subscribe input value excute NbThemeService.getJsTheme()
-  private _maxValue = new BehaviorSubject<number>(0);
-  private _value = new BehaviorSubject<number>(0);
-  private _chartLengends = new BehaviorSubject<LegendItemModel[]>([]);
-
-  @Input() set maxValue(val: number) {
-    this._maxValue.next(val);
-  }
-
-  get maxValue() {
-    return this._maxValue.getValue();
-  }
-
-  @Input() set value(val: number) {
-    this._value.next(val);
-  }
-
-  get value() {
-    return this._value.getValue();
-  }
-
-
-  @Input() set chartLegend(val: LegendItemModel[]) {
-    this._chartLengends.next(val);
-  }
-
-  get chartLegend() {
-    return this._chartLengends.getValue();
-  }
+  @Input() maxValue: number;
+  @Input() value: number;
+  @Input() chartLegend: LegendItemModel[];
 
   option: any = {};
 
@@ -63,18 +30,24 @@ export class DashboardStatisticPieComponent implements AfterViewInit, OnDestroy 
       )
       .subscribe(() => this.resizeChart());
   }
+  
+  ngOnChanges() {
+    this.initChart();
+  }
 
   ngAfterViewInit() {
-    this._maxValue.subscribe(val => {
-      this.theme.getJsTheme()
-        .pipe(
-          takeWhile(() => this._alive),
-          delay(1),
-        )
-        .subscribe(config => {
-          const variables: any = config.variables;
-          this.setOptions(variables);
-        });
+    this.initChart();
+  }
+
+  private initChart() {
+    this.theme.getJsTheme()
+    .pipe(
+      takeWhile(() => this._alive),
+      delay(1),
+    )
+    .subscribe(config => {
+      const variables: any = config.variables;
+      this.setOptions(variables);
     });
   }
 
