@@ -33,9 +33,13 @@ export class VerticalDetailComponent {
             // the property contains column configurations.u
             columns: {
                 key: {
-                    class: 'key-name'
+                    class: 'key-name',
+
                 },
-                value: {}
+                value: {
+                    // data feild can add html element
+                    type: 'html'
+                }
             }
         };
     }

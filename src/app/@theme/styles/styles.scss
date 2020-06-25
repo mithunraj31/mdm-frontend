@@ -40,3 +40,7 @@
   @include nb-overrides();
   @include material-overrides();
 }
+
+.device-online {
+  color: #5dc25d;
+}
