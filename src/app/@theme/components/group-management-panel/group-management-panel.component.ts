@@ -32,7 +32,7 @@ export class GroupManagementPanelComponent {
     @ViewChild(TreeComponent)
     tree: TreeComponent;
 
-    //
+    @Output() onSelected = new EventEmitter();
     @Output() onDeleted = new EventEmitter();
     @Output() onChanged = new EventEmitter();
     @Output() onAdded = new EventEmitter();
@@ -130,6 +130,10 @@ export class GroupManagementPanelComponent {
 
         this.tree.treeModel.update();
         this.onChanged.emit(this.tree.treeModel.nodes as any);
+    }
+
+    onGroupSelected($event: any) {
+        this.onSelected.emit($event);
     }
 
 }

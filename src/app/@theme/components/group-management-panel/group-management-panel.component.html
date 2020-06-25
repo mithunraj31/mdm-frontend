@@ -14,7 +14,8 @@
     <nb-card-body>
         <form action="">
             <tree-root [nodes]="groups" [options]="options"
-            (updateData)="onGroupChanged($event)">
+            (updateData)="onGroupChanged($event)"
+            (activate)="onGroupSelected($event)">
                 <ng-template #treeNodeTemplate let-node let-index="index">
                     <span *ngIf="!node.data.isEdit">{{ node.data.name }}</span>
                     <span *ngIf="node.data.isEdit">
