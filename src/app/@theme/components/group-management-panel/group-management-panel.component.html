@@ -12,8 +12,10 @@
         </div>
     </nb-card-header>
     <nb-card-body>
+        <nb-menu tag="groupMenu" [items]="sideMenuItems"></nb-menu>
         <form action="">
             <tree-root [nodes]="groups" [options]="options"
+            [focused]="false" 
             (updateData)="onGroupChanged($event)"
             (activate)="onGroupSelected($event)">
                 <ng-template #treeNodeTemplate let-node let-index="index">
