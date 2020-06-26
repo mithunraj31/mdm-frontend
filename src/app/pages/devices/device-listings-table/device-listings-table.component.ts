@@ -52,7 +52,8 @@ export class DeviceListingsTableComponent {
                     // use for listening component events.
                     onComponentInitFunction : (instance: any) =>  {
                         instance.onClicked.subscribe(response => {
-                            this.router.navigate([`./${response.id}`]);
+                            this.router.navigate([`pages/devices/${response.id}`]);
+                            // console.log(response.id);
                         });
                     },
                 },
