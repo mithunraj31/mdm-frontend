@@ -7,7 +7,7 @@
       <ng2-smart-table [settings]="tableSettings" [source]="logs$ | async"></ng2-smart-table>
       
   </div>
-  <div class="col-log-9 offset-lg-3 pagination-container">
+  <div class="col-lg-9 offset-lg-3 pagination-container">
     <mdm-pager *ngIf="pagination" 
       [page]="page"
       [totalItem]="pagination.totalSize"
