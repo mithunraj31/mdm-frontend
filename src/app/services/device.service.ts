@@ -86,4 +86,26 @@ export class DeviceService {
     private getPage(pageNumber: number) {
         return pageNumber > 0 ? pageNumber - 1: 0;
     }
+
+    renameGroup(profile: any, value: string) {
+        profile.profile['name'] = value;
+
+        return this.http.post<any>(this.host + 'device/group/save', profile);
+    }
+    addGroup(order: number) {
+        let payload = {
+            "profile": { "name": "Untitled" },
+            "deviceNumbers": 0,
+            "enabled": true,
+            "editMode": false,
+            "tempName": "Untitled",
+            "hover": true,
+            "order": order
+        }
+        return this.http.post<any>(this.host + 'device/group/save', payload);
+    }
+    deleteGroup(id: string) {
+        let payload = { uuid: id }
+        return this.http.post<any>(this.host + 'device/group/delete', payload);
+    }
 }

@@ -42,6 +42,7 @@ export class GroupManagementPanelComponent {
     @Output() onChanged = new EventEmitter();
     @Output() onAdded = new EventEmitter();
     @Output() onGroupMoved = new EventEmitter();
+    @Output() onRename = new EventEmitter();
 
     constructor(private dialogService: NbDialogService,
         private menuService: NbMenuService) {
@@ -130,7 +131,7 @@ export class GroupManagementPanelComponent {
         this.dialogService.open(ConfirmModalComponent, {
             context: {
                 title: 'Confirm delete',
-                description: `Would you like to delete this grpup id: ${group.id} ?`
+                description: `Would you like to delete this group: ${group.name} ?`
             }
         }).onClose.subscribe((isDeleteConfirmed: boolean) => {
             if (isDeleteConfirmed) {
@@ -158,25 +159,7 @@ export class GroupManagementPanelComponent {
     // @parameter groupId {string}: group id
     // @return {void}
     onNameChanged($event: any, groupId: string) {
-
-        // find group by id
-        // do it all group
-        // @function iter: named function to use local process
-        this.groups.forEach(function iter(group) {
-            // if group contain same assign new group name 
-            // to name property
-            if (group.id == groupId) {
-                group.name = $event.target.value;
-            }
-
-            // if children is not empty array, process again with children object
-            if (group.children && group.children.length > 0) {
-                group.children.forEach(iter);
-            }
-        });
-
-        this.tree.treeModel.update();
-        this.onChanged.emit(this.tree.treeModel.nodes as any);
+        this.onRename.emit({id: groupId, value: $event.target.value});
     }
 
     onGroupSelected($event: any) {
