@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { DeviceService } from './../../../services/device.service';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NbDialogService } from '@nebular/theme';
 import { DeviceModel } from '../../../@core/entities/device.model';
 import { GroupModel } from '../../../@core/entities/group.model';
@@ -30,8 +31,11 @@ export class DeviceListingsTableComponent {
     // @type {any[]}
     @Input() groups: any[];
 
+    @Output() onDeviceAdded = new EventEmitter();
+
     constructor(private dialogService: NbDialogService,
-        private router: Router) {
+        private router: Router,
+        private deviceService: DeviceService) {
 
         this.tableSettings = {
             // hide create, update, and delete row buttons from ng2-smart-table
@@ -112,6 +116,13 @@ export class DeviceListingsTableComponent {
             }
         }).onClose.subscribe((basicInfo: BasicDeviceInfoModel) => {
             // do something for create the data
+            if(basicInfo) {
+                this.deviceService.addDevice(basicInfo).subscribe(result=>{
+                    if(result.code == 200){
+                        this.onDeviceAdded.emit();
+                    }
+                })
+            }
         });
     }
 }

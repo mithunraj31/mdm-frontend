@@ -11,6 +11,7 @@
         <mdm-device-listings-table
          [listings]="deviceListings$ | async"
          [groups]="groupNodes"
+         (onDeviceAdded)="getDeviceData()"
         ></mdm-device-listings-table>
    </div>
 </div>
