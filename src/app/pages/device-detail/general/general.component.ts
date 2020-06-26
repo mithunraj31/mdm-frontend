@@ -6,7 +6,7 @@ import { PercentPieModel } from '../../../@core/entities/percent-pie.model';
 @Component({
   selector: 'mdm-device-detail-general',
   templateUrl: './general.component.html',
-  styles: ['.list-contianer { padding-top: 0.5rem; }']
+  styleUrls: [ './general.component.scss' ]
 })
 export class GeneralComponent implements OnInit {
   // @variable deviceId: Device Id
@@ -89,6 +89,9 @@ export class GeneralComponent implements OnInit {
   // @type {PercentPieModel}
   batteryChart: PercentPieModel;
 
+  // fact when obtain device information from API, expand basic info accordion
+  isBasicInfoExpanded: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private deviceService: DeviceService) {
@@ -101,7 +104,7 @@ export class GeneralComponent implements OnInit {
   // when enter to details page will obtain some value
   // then use the value to specific device from Backend API
   ngOnInit() {
-
+    this.isBasicInfoExpanded = false;
     this.route.parent.params.subscribe(paramMap => {
       this.deviceId = paramMap.id;
 
@@ -135,12 +138,11 @@ export class GeneralComponent implements OnInit {
 
   getGeneralDeviceDetails() {
     this.deviceService.getDeviceById(this.deviceId).subscribe(result => {
-      console.log(result);
       // Storage chart values
-      let totalStorage: number = result?.data?.profile?.hardware_info?.storages[0]?.total || 0;
-      let freeStorage: number = result?.data?.profile?.hardware_info?.storages[0]?.free || 0;
-      let usedStorage: number = totalStorage - freeStorage > 0 ? totalStorage - freeStorage : 0;
-      let usedStoragePercentage: number = +(usedStorage / totalStorage * 100).toFixed(0);
+      const totalStorage: number = result?.data?.profile?.hardware_info?.storages[0]?.total || 0;
+      const freeStorage: number = result?.data?.profile?.hardware_info?.storages[0]?.free || 0;
+      const usedStorage: number = totalStorage - freeStorage > 0 ? totalStorage - freeStorage : 0;
+      const usedStoragePercentage: number = +(usedStorage / totalStorage * 100).toFixed(0);
 
       this.storageChart = {
         title: result?.data?.profile?.hardware_info?.storages[0]?.name || 'N/A',
@@ -149,10 +151,10 @@ export class GeneralComponent implements OnInit {
       }
 
       // Memory chart Values
-      let totalMemory: number = result?.data?.profile?.hardware_info?.memory?.total || 0;
-      let freeMemory: number = result?.data?.profile?.hardware_info?.memory?.free || 0;
-      let usedMemory: number = totalMemory - freeMemory > 0 ? totalMemory - freeMemory : 0;
-      let usedMemoryPercentage: number = +(usedMemory / totalMemory * 100).toFixed(0);
+      const totalMemory: number = result?.data?.profile?.hardware_info?.memory?.total || 0;
+      const freeMemory: number = result?.data?.profile?.hardware_info?.memory?.free || 0;
+      const usedMemory: number = totalMemory - freeMemory > 0 ? totalMemory - freeMemory : 0;
+      const usedMemoryPercentage: number = +(usedMemory / totalMemory * 100).toFixed(0);
 
       this.memoryUsageChart.description = this.formatBytes(usedMemory) + " / " + this.formatBytes(totalMemory)
       this.memoryUsageChart.value = usedMemoryPercentage;
@@ -180,7 +182,8 @@ export class GeneralComponent implements OnInit {
         },
         {
           key: 'Status',
-          value: result?.data?.states?.isOnline ? 'Online' : 'Offline'
+          value: result?.data?.states?.isOnline 
+          ? '<i class="fas fa-circle device-online"></i> Online' : '<i class="fas fa-circle"></i> Offline'
         },
         {
           key: 'Os version',
@@ -199,6 +202,8 @@ export class GeneralComponent implements OnInit {
           value: result?.data?.profile?.hardware_info?.product_id || 'N/A'
         },
       ];
+
+      this.isBasicInfoExpanded = true;
 
       // Network Information
       // Wifi information 
@@ -284,7 +289,7 @@ export class GeneralComponent implements OnInit {
         {
           key: 'Group',
           value: result?.data?.deviceProfiles[0]?.deviceProfileGroup?.profile?.name
-          +"/"+result?.data?.deviceGroup?.profile?.name,
+            + "/" + result?.data?.deviceGroup?.profile?.name,
         },
         {
           key: 'Owner',
@@ -310,7 +315,7 @@ export class GeneralComponent implements OnInit {
           key: 'Last updated',
           value: result?.data?.updated ? new Date(result?.data?.updated).toDateString() : 'N/A'
         },
-      ]; 
+      ];
     },
       // When the deviceId from the url parameter is invalid
       // then status will return as 400

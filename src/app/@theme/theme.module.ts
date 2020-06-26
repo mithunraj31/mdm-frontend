@@ -13,7 +13,6 @@ import {
   NbSelectModule,
   NbIconModule,
   NbThemeModule,
-  NbSpinnerModule,
   NbToggleModule,
   NbCardModule,
   NbInputModule,
@@ -69,14 +68,12 @@ const NB_MODULES = [
   NbSelectModule,
   NbIconModule,
   NbEvaIconsModule,
-  NbSpinnerModule,
   NbToggleModule,
   NbCardModule,
   NbButtonModule,
   NbInputModule,
   NbSelectModule,
   NbListModule,
-  NbSpinnerModule,
 ];
 const COMPONENTS = [
   VerticalDetailComponent,

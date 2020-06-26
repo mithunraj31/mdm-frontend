@@ -6,7 +6,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NbMenuItem } from '@nebular/theme';
 import { LogModel } from '../../../@core/entities/log.model';
-import { LocalDataSource } from 'ng2-smart-table';
 
 @Component({
   selector: 'mdm-logs',
@@ -36,8 +35,6 @@ export class LogsComponent implements OnInit {
   sideMenuItems: NbMenuItem[] = [];
 
   logs$: Observable<LogModel[]>;
-
-  source = new LocalDataSource();
 
   constructor(
     private route: ActivatedRoute,
@@ -103,25 +100,24 @@ export class LogsComponent implements OnInit {
   // param "page" & "size" is used to manage pagination
   // response is containing "totalSize","size" and "totalPage" as well.
   getLogs(uuid: string, page: number, size: number) {
-    this.logs$ = this.deviceService.getLogs(uuid, page, size).pipe(map(result => {
-      const logs: LogModel[] = [];
-      if (result?.data) {
-        result.data.forEach(log => {
-          // console.log(log);
-          let tempLog: LogModel = {
-            event: log.category || '',
-            loggedAt: log.loggedAt || '',
-            message: log.log || '',
-            owner: {
-              name: log.logger?.profile?.name || '',
-              uuid: log.logger?.profile?.name || null,
+    this.logs$ = this.deviceService.getLogs(uuid, page, size)
+      .pipe(map(result => {
+        const logs: LogModel[] = [];
+        if (result?.data) {
+          result.data.forEach(log => {
+            let tempLog: LogModel = {
+              event: log.category || '',
+              loggedAt: log.loggedAt || '',
+              message: log.log || '',
+              owner: {
+                name: log.logger?.profile?.name || '',
+                uuid: log.logger?.profile?.name || null,
+              }
             }
-          }
-          logs.push(tempLog);
-        });
-      }
-      return logs;
-    }
-    ));
+            logs.push(tempLog);
+          });
+        }
+        return logs;
+      }));
   }
 }

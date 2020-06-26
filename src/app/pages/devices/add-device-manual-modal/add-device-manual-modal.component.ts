@@ -48,7 +48,7 @@ export class AddDeviceManualModalComponent {
     // group id and grop name then update value of basicInfo
     // @return {void}
     onSelectGroupClick() {
-        this.dialogService.open(SelectGroupModalComponent, {
+        this.dialogService.open(SelectGroupModalComponent, { 
             context: {
                 groups: this.deviceGroups
             }

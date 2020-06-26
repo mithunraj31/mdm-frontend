@@ -51,7 +51,6 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
       messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
     }),
     CoreModule.forRoot(),
-    Ng2SmartTableModule
   ],
   providers:[
     AuthService,

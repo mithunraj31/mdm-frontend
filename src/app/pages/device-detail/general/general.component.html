@@ -12,13 +12,17 @@
       [chartValue]="batteryChart.value"></mdm-percent-pie>
   </div>
   <div class="col-lg-3">
-    <mdm-percent-pie [title]="wifiChart.title" [description]="wifiChart.description" [chartValue]="wifiChart.value">
-    </mdm-percent-pie>
+    <nb-card class="wifi-uasge-card">
+      <nb-card-body>
+        <h5>{{wifiChart.title}}</h5>
+        <p>{{wifiChart.description}}</p>
+      </nb-card-body>
+    </nb-card>
   </div>
 </div>
 
 <nb-accordion>
-  <nb-accordion-item>
+  <nb-accordion-item [expanded]="isBasicInfoExpanded">
     <nb-accordion-item-header>
       Basic Information
     </nb-accordion-item-header>
