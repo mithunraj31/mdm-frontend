@@ -61,7 +61,7 @@ export class DevicesComponent implements OnInit {
           var tempobj = array[i];
           var obj = {};
           obj['id'] = tempobj.uuid;
-          obj['name'] = tempobj.profile.name;
+          obj['name'] = tempobj.profile?.name;
           obj['parentId'] = tempobj.parentUuid || null;
           obj['deviceCount'] = tempobj.deviceNumbers;
           newArray.push(obj);
@@ -155,9 +155,25 @@ export class DevicesComponent implements OnInit {
   }
 
   onGroupMoved($event) {
-    const profile = this.tempGroups.find( ({ uuid }) => uuid === $event.id );
-    console.log(profile)
+    const profile = this.tempGroups.find(({ uuid }) => uuid === $event.id);
     this.deviceService.moveGroup(profile, $event.id, $event.parentId).subscribe(result => {
+      this.getDeviceProfiles();
+    })
+  }
+  onRenameGroup($event) {
+    const profile = this.tempGroups.find(({ uuid }) => uuid === $event.id);
+    this.deviceService.renameGroup(profile, $event.value).subscribe(result => {
+      this.getDeviceProfiles()
+    })
+  }
+  onAddGroup() {
+    let order = this.groupNodes.length;
+    this.deviceService.addGroup(order).subscribe(result => {
+      this.getDeviceProfiles();
+    })
+  }
+  onDeleteGroup($event) {
+    this.deviceService.deleteGroup($event.id).subscribe(result=>{
       this.getDeviceProfiles();
     })
   }
