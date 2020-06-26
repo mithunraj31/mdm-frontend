@@ -12,4 +12,5 @@ export class DeviceModel {
     license: LicenseModel;
     ssid: string;
     isEnabled: boolean;
+    isOnline?: boolean;
 }
