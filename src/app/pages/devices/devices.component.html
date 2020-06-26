@@ -3,12 +3,20 @@
        <mdm-group-management-panel 
        [title]="'Group'"
        [groups]="groupNodes"
+       (onSelected)="fetchDeviceData($event)"
+       (onGroupMoved)="onGroupMoved($event)"
+       (onRename)="onRenameGroup($event)"
+       (onAdded)="onAddGroup()"
+       (onDeleted)="onDeleteGroup($event)"
        ></mdm-group-management-panel>
    </div>
    <div class="col-lg-9">
         <mdm-device-listings-table
-         [listings]="deviceListings"
+         [listings]="deviceListings$ | async"
          [groups]="groupNodes"
+         (onDeviceAdded)="getDeviceData()"
+         [pagination]="pagination"
+         (onPageNumberChanged)="onPageNumberChanged($event)"
         ></mdm-device-listings-table>
    </div>
 </div>

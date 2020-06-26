@@ -1,0 +1,31 @@
+<ul class="pagination">
+    <li class="page-item" [class.disabled]="page == 1">
+        <span class="page-link" (click)="onPageClick(page - 1)">Previous</span>
+    </li>
+    <li class="page-item" [class.disabled]="page == 1"
+    (click)="onPageClick(1)">
+        <span class="page-link" >
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Previous</span>
+        </span>
+    </li>
+    <li class="page-item" *ngFor="let n of numberOfpages" [class.active]="page == n" (click)="onPageClick(n)">
+        <span class="page-link">{{n}}</span>
+    </li>
+    <li class="page-item disabled" *ngIf="(getTotalPage() - page) >= 4">
+        <span class="page-link">...</span>
+    </li>
+    <li class="page-item" [class.active]="page == getTotalPage()" (click)="onPageClick(getTotalPage())">
+        <span class="page-link">{{getTotalPage()}}</span>
+    </li>
+    <li class="page-item" [class.disabled]="page == getTotalPage()"
+        (click)="onPageClick(getTotalPage())">
+        <span class="page-link">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Next</span>
+        </span>
+    </li>
+    <li class="page-item" [class.disabled]="page == getTotalPage()" (click)="onPageClick(page + 1)">
+        <span class="page-link">Next</span>
+    </li>
+</ul>

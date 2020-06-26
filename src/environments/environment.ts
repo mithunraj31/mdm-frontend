@@ -10,5 +10,5 @@
 
 export const environment = {
   production: false,
-  host: "http://18.177.107.1:8010/proxy/api/"
+  host: "http://localhost:8010/proxy/api/"
 };
