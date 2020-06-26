@@ -17,8 +17,6 @@ import {
   NbCardModule,
   NbInputModule,
   NbListModule,
-  
-  NbSpinnerModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbSecurityModule } from '@nebular/security';
@@ -52,6 +50,8 @@ import { NbToggleWraperComponent } from './components/nebular-wraper/mdm-toggle.
 import { SelectGroupModalComponent } from './components/select-group-modal/select-group-modal.component';
 import { GroupManagementPanelComponent } from './components/group-management-panel/group-management-panel.component';
 import { TreeModule } from 'angular-tree-component';
+import { ConfirmModalComponent } from './components/confirm-modal/cofirm-modal.component';
+import { SmartTableLinkComponent } from './components/smart-table-link/smart-table-link.component';
 import { VerticalDetailComponent } from './components/vertical-details/vertical-details.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { PagerComponent } from './components/pager/pager.component';
@@ -75,7 +75,6 @@ const NB_MODULES = [
   NbInputModule,
   NbSelectModule,
   NbListModule,
-  NbSpinnerModule,
 ];
 const COMPONENTS = [
   VerticalDetailComponent,
@@ -91,6 +90,8 @@ const COMPONENTS = [
   NbToggleWraperComponent,
   SelectGroupModalComponent,
   PagerComponent,
+  ConfirmModalComponent,
+  SmartTableLinkComponent,
 ];
 const PIPES = [
   CapitalizePipe,

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbCardModule, NbToggleModule, NbButtonModule, NbInputModule, NbSelectModule } from '@nebular/theme';
+import { NbCardModule, NbToggleModule, NbButtonModule, NbInputModule, NbSelectModule, NbCheckboxModule } from '@nebular/theme';
 import { ThemeModule } from '../../@theme/theme.module';
 import { DevicesComponent } from './devices.component';
 import { FormsModule } from '@angular/forms';
@@ -11,10 +11,12 @@ import { AddDeviceManualModalComponent } from './add-device-manual-modal/add-dev
         FormsModule,
         ThemeModule,
         NbCardModule,
+        Ng2SmartTableModule,
         NbToggleModule,
         NbButtonModule,
         NbInputModule,
         NbSelectModule,
+        NbCheckboxModule,
     ],
     declarations: [
         DevicesComponent,

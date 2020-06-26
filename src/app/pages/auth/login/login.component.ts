@@ -12,6 +12,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
     styles: ['.error-message { color: red; }']
 })
 export class LoginComponent {
+
     // @variable form: Login from group
     // config form validataion for login email and password
     // initial in class constructor
