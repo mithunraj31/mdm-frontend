@@ -80,7 +80,7 @@ export class DevicesComponent implements OnInit {
       if (result.data.length > 0) {
         result.data.forEach(device => {
 
-          let serial = device.states?.isOnline==true?'🟢 '+device.profile?.hardware_info?.serial_no:'🔴 '+device.profile?.hardware_info?.serial_no;
+          let serial = device.states?.isOnline==true?'🟢 '+device.profile?.hardware_info?.serial_no:'◯ '+device.profile?.hardware_info?.serial_no;
 
           let tempDevice: DeviceModel = {
             id: device.uuid || '',
