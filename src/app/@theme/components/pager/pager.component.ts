@@ -40,13 +40,17 @@ export class PagerComponent implements OnInit, OnChanges {
         this.itemPerPage = this.itemPerPage || 10;
 
         const pages = this.getTotalPage();
-        if (this.page == 1) {
-            if (pages > 1) {
+        if (this.page == 1 && pages == 1) {
+            return;
+        } else if (this.page == 1) {
+            if (pages > 1 && (pages - 1) <= 4) {
                 for (let i = 0; i < pages - 1; i++) {
                     this.numberOfpages.push(i + 1);
                 }
+            } else {
+                this.numberOfpages = [1, 2, 3, 4];
             }
-        } else if (this.page > (pages - 4)) {
+        } else  if (this.page > (pages - 4)) {
             this.numberOfpages = [pages - 4, pages - 3, pages - 2, pages - 1];
         } else {
             this.numberOfpages = [this.page - 1, this.page, this.page + 1, this.page + 2];
