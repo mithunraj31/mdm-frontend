@@ -53,7 +53,7 @@ export class DevicesComponent implements OnInit {
 
   getDeviceProfiles() {
     this.deviceService.getProfiles().subscribe(result => {
-      if (result.data) {
+      if (result?.data) {
         this.tempGroups = result.data;
         var array = result.data;
         var newArray = [];
@@ -79,7 +79,7 @@ export class DevicesComponent implements OnInit {
   getDeviceData() {
     this.deviceListings$ = this.deviceService.getDeviceData(0, 20).pipe(map(result => {
       const deviceList: DeviceModel[] = [];
-      if (result.data.length > 0) {
+      if (result?.data?.length > 0) {
         result.data.forEach(device => {
 
           let serial = device.states?.isOnline == true ? '🟢 ' + device.profile?.hardware_info?.serial_no : '◯ ' + device.profile?.hardware_info?.serial_no;
@@ -126,7 +126,7 @@ export class DevicesComponent implements OnInit {
     getId($event);
     this.deviceListings$ = this.deviceService.getDeviceDataByGroupId(idArray, 0, 20).pipe(map(result => {
       const deviceList: DeviceModel[] = [];
-      if (result.data.length > 0) {
+      if (result?.data?.length > 0) {
         result.data.forEach(device => {
 
           let tempDevice: DeviceModel = {

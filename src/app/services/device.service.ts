@@ -67,6 +67,9 @@ export class DeviceService {
         console.log(payload);
         return this.http.post<any>(this.host + 'device/save', payload);
     }
+    updateDevice(device: any) {
+        return this.http.post<any>(this.host + 'device/save', device);
+    }
     moveGroup(profile, id: string, parentId: any) {
         let siteUuid = this.userService.getLoggedUser().siteUuid;
         let payload = {
