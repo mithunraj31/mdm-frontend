@@ -80,13 +80,13 @@ export class DevicesComponent implements OnInit {
       if (result.data.length > 0) {
         result.data.forEach(device => {
 
-          let serial = device.states?.isOnline==true?'🟢 '+device.profile?.hardware_info?.serial_no:'◯ '+device.profile?.hardware_info?.serial_no;
-
+          let serial = device.states?.isOnline == true ? '🟢 ' + device.profile?.hardware_info?.serial_no : '◯ ' + device.profile?.hardware_info?.serial_no;
+          let owner = device.owner?.profile?.name ? '🤵 ' + device.owner?.profile?.name : '';
           let tempDevice: DeviceModel = {
             id: device.uuid || '',
             ssid: '',
             isEnabled: device.enabled || false,
-            serialNumber: serial|| '',
+            serialNumber: serial || '',
             group: {
               id: device.deviceGroup?.uuid || null,
               name: device.deviceGroup?.profile?.name || '',
@@ -96,10 +96,10 @@ export class DevicesComponent implements OnInit {
               autoRenew: device.license?.autoRenew || '',
             },
             owner: {
-              name: '🤵 '+device.owner?.profile?.name || '',
+              name: owner,
               email: device.owner?.email || ''
             },
-            isOnline : device.states?.isOnline || false
+            isOnline: device.states?.isOnline || false
 
           }
           deviceList.push(tempDevice);
