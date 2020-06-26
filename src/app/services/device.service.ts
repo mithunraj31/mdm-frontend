@@ -47,24 +47,37 @@ export class DeviceService {
     addDevice(device: BasicDeviceInfoModel) {
         let siteUuid = this.userService.getLoggedUser().siteUuid;
         let payload = {
-            autoRenew : device.autoRenew,
-            enabled : true,
-            licenseModelUuid : device.licenseId,
-            owner : {
+            autoRenew: device.autoRenew,
+            enabled: true,
+            licenseModelUuid: device.licenseId,
+            owner: {
                 email: device.email
             },
-            profile :{
-                hardware_info : {
+            profile: {
+                hardware_info: {
                     serial_no: device.serialNumber
                 }
 
             },
-            siteUuid :siteUuid
+            siteUuid: siteUuid
         }
-        if(device.groupId && device.groupId != ""){
+        if (device.groupId && device.groupId != "") {
             payload['groupUuid'] = device.groupId
         }
         console.log(payload);
         return this.http.post<any>(this.host + 'device/save', payload);
+    }
+    moveGroup(profile, id: string, parentId: any) {
+        let siteUuid = this.userService.getLoggedUser().siteUuid;
+        let payload = {
+            siteUuid: siteUuid,
+            uuid: id,
+        }
+        if (typeof parentId === 'string' || parentId instanceof String) {
+            profile['parentUuid'] = parentId;
+        } else if (profile.parentUuid) {
+            delete profile['parentUuid'];
+        }
+        return this.http.post<any>(this.host + 'device/group/save', profile);
     }
 }
