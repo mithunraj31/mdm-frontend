@@ -96,7 +96,7 @@ export class DevicesComponent implements OnInit {
               autoRenew: device.license?.autoRenew || '',
             },
             owner: {
-              name: device.owner?.profile?.name || '',
+              name: '🤵 '+device.owner?.profile?.name || '',
               email: device.owner?.email || ''
             },
             isOnline : device.states?.isOnline || false
