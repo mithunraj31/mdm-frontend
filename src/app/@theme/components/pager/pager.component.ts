@@ -27,7 +27,7 @@ export class PagerComponent implements OnInit, OnChanges {
 
     onPageClick(pageNumber: number) {
         const pages = this.getTotalPage();
-        if (pageNumber != this.page 
+        if (pageNumber != this.page
             && pageNumber > 0
             && pageNumber <= pages) {
             this.page = pageNumber;
@@ -38,17 +38,20 @@ export class PagerComponent implements OnInit, OnChanges {
     private caluclatePageItem() {
         this.numberOfpages = [];
         this.itemPerPage = this.itemPerPage || 10;
-        
+
         const pages = this.getTotalPage();
-        console.log(this.page)
         if (this.page == 1) {
-            this.numberOfpages = [1, 2, 3, 4]
+            if (pages > 1) {
+                for (let i = 0; i < pages - 1; i++) {
+                    this.numberOfpages.push(i + 1);
+                }
+            }
         } else if (this.page > (pages - 4)) {
-            this.numberOfpages = [pages - 4 , pages - 3 , pages - 2, pages - 1  ];
+            this.numberOfpages = [pages - 4, pages - 3, pages - 2, pages - 1];
         } else {
-            this.numberOfpages = [this.page - 1 , this.page , this.page + 1, this.page +2  ];
+            this.numberOfpages = [this.page - 1, this.page, this.page + 1, this.page + 2];
         }
-        
+
     }
 
     getTotalPage() {

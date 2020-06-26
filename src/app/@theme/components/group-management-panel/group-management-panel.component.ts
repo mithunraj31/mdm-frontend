@@ -41,7 +41,6 @@ export class GroupManagementPanelComponent {
     @Output() onDeleted = new EventEmitter();
     @Output() onChanged = new EventEmitter();
     @Output() onAdded = new EventEmitter();
-    @Output() onViewAllSelected = new EventEmitter();
     @Output() onGroupMoved = new EventEmitter();
 
     constructor(private dialogService: NbDialogService,
@@ -93,9 +92,8 @@ export class GroupManagementPanelComponent {
                     ];
                 }
 
-               
                 // view all clicked
-                this.onViewAllSelected.emit();
+                this.onSelected.emit(null);
             }
         });
     }
@@ -147,7 +145,6 @@ export class GroupManagementPanelComponent {
     // @parameter $event {any}: the parameter contian changed tree root model (angular-tree-component)
     // @return {void}
     onGroupChanged($event: any) {
-        console.log($event.treeModel);
         this.onChanged.emit($event.treeModel.nodes);
     }
 

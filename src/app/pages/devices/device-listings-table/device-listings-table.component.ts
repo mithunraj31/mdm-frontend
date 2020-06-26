@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { BasicDeviceInfoModel } from '../../../@core/entities/basic-device-info.mode';
 import { SmartTableLinkComponent } from '../../../@theme/components/smart-table-link/smart-table-link.component';
 import { map } from 'rxjs/operators';
+import { Pagination } from '../../../@core/entities/page.model';
 
 @Component({
     selector: 'mdm-device-listings-table',
@@ -33,6 +34,11 @@ export class DeviceListingsTableComponent {
     @Input() groups: any[];
 
     @Output() onDeviceAdded = new EventEmitter();
+    @Output() onPageNumberChanged = new EventEmitter();
+
+    page: number = 1;
+
+    @Input() pagination: Pagination;
 
     constructor(private dialogService: NbDialogService,
         private router: Router,
@@ -58,7 +64,6 @@ export class DeviceListingsTableComponent {
                     onComponentInitFunction: (instance: any) => {
                         instance.onClicked.subscribe(response => {
                             this.router.navigate([`pages/devices/${response.id}`]);
-                            // console.log(response.id);
                         });
                     },
                 },
@@ -99,6 +104,9 @@ export class DeviceListingsTableComponent {
                     },
                 },
             },
+            pager: {
+                display: false
+            }
         };
     }
 
@@ -126,6 +134,10 @@ export class DeviceListingsTableComponent {
         });
     }
 
+    onPageChanged($event) {
+        this.onPageNumberChanged.emit($event);
+    }
+
     private async enableDeviceAsync(deviceId: string, isEnabled: boolean) {
         const device = await this.deviceService.getDeviceById(deviceId)
             .pipe(map(res => res?.data)).toPromise();
@@ -134,8 +146,6 @@ export class DeviceListingsTableComponent {
             device.enabled = isEnabled;
             const response = await this.deviceService
                 .updateDevice(device).pipe(map(res => res)).toPromise();
-            
-            
         }
     }
 }

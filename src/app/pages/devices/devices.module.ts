@@ -5,6 +5,7 @@ import { DevicesComponent } from './devices.component';
 import { FormsModule } from '@angular/forms';
 import { DeviceListingsTableComponent } from './device-listings-table/device-listings-table.component';
 import { AddDeviceManualModalComponent } from './add-device-manual-modal/add-device-manual-modal.component';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 @NgModule({
     imports: [

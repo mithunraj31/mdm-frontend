@@ -16,5 +16,13 @@
     </nb-card-header>
     <nb-card-body>
         <ng2-smart-table [settings]="tableSettings" [source]="listings" ></ng2-smart-table>
+        <div class="pagination-container">
+            <mdm-pager *ngIf="pagination" 
+            [page]="page"
+            [totalItem]="pagination.totalSize"
+            [itemPerPage]="10"
+            (onPageChange)="onPageChanged($event)"></mdm-pager>
+        </div>
+
     </nb-card-body>
 </nb-card>

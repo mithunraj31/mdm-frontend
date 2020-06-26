@@ -135,6 +135,5 @@ export class LogsComponent implements OnInit {
   onPageChanged(pageumber: number) {
     this.page = pageumber;
     this.getLogs(this.deviceId, this.page, 10);
-
   }
 }

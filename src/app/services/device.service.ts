@@ -23,7 +23,7 @@ export class DeviceService {
         return this.http.get<any>(this.host + 'device/app/installed?deviceUuid=' + uuid);
     }
     getLogs(uuid: string, page: number, size: number) {
-        const params = `filter={"forWhat":"${uuid}"}&page=${page}&size=${size}`
+        const params = `filter={"forWhat":"${uuid}"}&page=${this.getPage(page)}&size=${size}`
         return this.http.get<any>(this.host + 'logs/find?' + params);
     }
     getProfiles() {
@@ -31,12 +31,12 @@ export class DeviceService {
     }
     getDeviceData(page: number, size: number, sortBy?: string) {
         let siteUuid = this.userService.getLoggedUser().siteUuid;
-        let urlParams = `device/find?direction=desc&filter={"siteUuid":"${siteUuid}"}&page=${page}&size=${size}&sortBy=profile.hardware_info.serial_no`;
+        let urlParams = `device/find?direction=desc&filter={"siteUuid":"${siteUuid}"}&page=${this.getPage(page)}&size=${size}&sortBy=profile.hardware_info.serial_no`;
         return this.http.get<any>(this.host + urlParams);
     }
     getDeviceDataByGroupId(uuids: string[], page: number, size: number, sortBy?: string) {
         let siteUuid = this.userService.getLoggedUser().siteUuid;
-        let urlParams = `device/find?direction=desc&filter={"siteUuid":"${siteUuid}","deviceGroup.uuid":${JSON.stringify(uuids)}}&page=${page}&size=${size}&sortBy=profile.hardware_info.serial_no`;
+        let urlParams = `device/find?direction=desc&filter={"siteUuid":"${siteUuid}","deviceGroup.uuid":${JSON.stringify(uuids)}}&page=${this.getPage(page)}&size=${size}&sortBy=profile.hardware_info.serial_no`;
         const url = encodeURI(this.host + urlParams);
         return this.http.get<any>(url);
     }
@@ -64,7 +64,6 @@ export class DeviceService {
         if (device.groupId && device.groupId != "") {
             payload['groupUuid'] = device.groupId
         }
-        console.log(payload);
         return this.http.post<any>(this.host + 'device/save', payload);
     }
     updateDevice(device: any) {
@@ -82,5 +81,9 @@ export class DeviceService {
             delete profile['parentUuid'];
         }
         return this.http.post<any>(this.host + 'device/group/save', profile);
+    }
+
+    private getPage(pageNumber: number) {
+        return pageNumber > 0 ? pageNumber - 1: 0;
     }
 }

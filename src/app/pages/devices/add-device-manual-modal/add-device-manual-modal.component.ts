@@ -95,7 +95,6 @@ export class AddDeviceManualModalComponent implements OnInit {
                     licenses.push(tempLicense);
                 })
             }
-            console.log(licenses);
             return licenses;
         }));
 

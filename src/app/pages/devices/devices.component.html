@@ -3,8 +3,7 @@
        <mdm-group-management-panel 
        [title]="'Group'"
        [groups]="groupNodes"
-       (onSelected)="onGroupSelected($event)"
-       (onViewAllSelected)="getDeviceData()"
+       (onSelected)="fetchDeviceData($event)"
        (onGroupMoved)="onGroupMoved($event)"
        ></mdm-group-management-panel>
    </div>
@@ -13,6 +12,8 @@
          [listings]="deviceListings$ | async"
          [groups]="groupNodes"
          (onDeviceAdded)="getDeviceData()"
+         [pagination]="pagination"
+         (onPageNumberChanged)="onPageNumberChanged($event)"
         ></mdm-device-listings-table>
    </div>
 </div>

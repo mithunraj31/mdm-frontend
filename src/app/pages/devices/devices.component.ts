@@ -4,6 +4,7 @@ import { DeviceModel } from '../../@core/entities/device.model';
 import { NbComponentStatus, NbGlobalPhysicalPosition, NbToastrService } from '@nebular/theme';
 import { DeviceService } from '../../services/device.service';
 import { Observable } from 'rxjs';
+import { Pagination } from '../../@core/entities/page.model';
 
 
 @Component({
@@ -26,12 +27,13 @@ export class DevicesComponent implements OnInit {
   groupNodes: any[];
   tempGroups: any;
 
+  pagination: Pagination = null;
+
+  private selectedGroupsState: any = null;
+
   constructor(
     private toasterService: NbToastrService,
     private deviceService: DeviceService) {
-
-    // mockup data will remove after the component can obtain data from API
-
 
   }
   ngOnInit(): void {
@@ -76,10 +78,17 @@ export class DevicesComponent implements OnInit {
     })
   }
 
-  getDeviceData() {
-    this.deviceListings$ = this.deviceService.getDeviceData(0, 20).pipe(map(result => {
+  getDeviceData(page: number = 1) {
+    this.deviceListings$ = this.deviceService.getDeviceData(page, 10).pipe(map(result => {
       const deviceList: DeviceModel[] = [];
       if (result?.data?.length > 0) {
+
+        this.pagination = {
+          pageSize: result.size,
+          totalPage: result.totalPage,
+          totalSize: result.totalSize
+        };
+
         result.data.forEach(device => {
 
           let serial = device.states?.isOnline == true ? '🟢 ' + device.profile?.hardware_info?.serial_no : '◯ ' + device.profile?.hardware_info?.serial_no;
@@ -111,8 +120,7 @@ export class DevicesComponent implements OnInit {
     }));
   }
 
-  onGroupSelected($event: any) {
-
+  onGroupSelected($event: any, page: number = 1) {
     let idArray: string[] = [];
 
     const getId = (obj: any) => {
@@ -124,10 +132,15 @@ export class DevicesComponent implements OnInit {
       }
     }
     getId($event);
-    this.deviceListings$ = this.deviceService.getDeviceDataByGroupId(idArray, 0, 20).pipe(map(result => {
+    this.deviceListings$ = this.deviceService.getDeviceDataByGroupId(idArray, page, 10).pipe(map(result => {
       const deviceList: DeviceModel[] = [];
       if (result?.data?.length > 0) {
         result.data.forEach(device => {
+          this.pagination = {
+            pageSize: result.size,
+            totalPage: result.totalPage,
+            totalSize: result.totalSize
+          };
 
           let tempDevice: DeviceModel = {
             id: device.uuid || '',
@@ -154,9 +167,22 @@ export class DevicesComponent implements OnInit {
     }));
   }
 
+  fetchDeviceData(devices: any, pageNumber = 1) {
+    if (devices == null) {
+      // view all
+      this.getDeviceData(pageNumber);
+    } else {
+      this.selectedGroupsState = devices;
+      this.onGroupSelected(devices, pageNumber);
+    }
+  }
+
+  onPageNumberChanged($event) {
+    this.fetchDeviceData(this.selectedGroupsState, $event);
+  }
+
   onGroupMoved($event) {
-    const profile = this.tempGroups.find( ({ uuid }) => uuid === $event.id );
-    console.log(profile)
+    const profile = this.tempGroups.find(({ uuid }) => uuid === $event.id);
     this.deviceService.moveGroup(profile, $event.id, $event.parentId).subscribe(result => {
       this.getDeviceProfiles();
     })
