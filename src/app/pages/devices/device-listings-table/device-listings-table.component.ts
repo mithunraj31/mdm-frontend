@@ -10,6 +10,7 @@ import { AddDeviceManualModalComponent } from '../add-device-manual-modal/add-de
 import { Router } from '@angular/router';
 import { BasicDeviceInfoModel } from '../../../@core/entities/basic-device-info.mode';
 import { SmartTableLinkComponent } from '../../../@theme/components/smart-table-link/smart-table-link.component';
+import { map } from 'rxjs/operators';
 
 @Component({
     selector: 'mdm-device-listings-table',
@@ -54,7 +55,7 @@ export class DeviceListingsTableComponent {
                     filter: false,
                     renderComponent: SmartTableLinkComponent,
                     // use for listening component events.
-                    onComponentInitFunction : (instance: any) =>  {
+                    onComponentInitFunction: (instance: any) => {
                         instance.onClicked.subscribe(response => {
                             this.router.navigate([`pages/devices/${response.id}`]);
                             // console.log(response.id);
@@ -91,11 +92,9 @@ export class DeviceListingsTableComponent {
                     filter: false,
                     renderComponent: NbToggleWraperComponent,
                     // use for listening component events.
-                    onComponentInitFunction : (instance: any) =>  {
+                    onComponentInitFunction: (instance: any) => {
                         instance.onSwitched.subscribe(event => {
-                            // on enabled
-                            // do stuff
-                            console.log(event)
+                            this.enableDeviceAsync(event.rowData.id, event.currentValue);
                         });
                     },
                 },
@@ -117,13 +116,26 @@ export class DeviceListingsTableComponent {
             }
         }).onClose.subscribe((basicInfo: BasicDeviceInfoModel) => {
             // do something for create the data
-            if(basicInfo) {
-                this.deviceService.addDevice(basicInfo).subscribe(result=>{
-                    if(result.code == 200){
+            if (basicInfo) {
+                this.deviceService.addDevice(basicInfo).subscribe(result => {
+                    if (result.code == 200) {
                         this.onDeviceAdded.emit();
                     }
                 })
             }
         });
+    }
+
+    private async enableDeviceAsync(deviceId: string, isEnabled: boolean) {
+        const device = await this.deviceService.getDeviceById(deviceId)
+            .pipe(map(res => res?.data)).toPromise();
+
+        if (device) {
+            device.enabled = isEnabled;
+            const response = await this.deviceService
+                .updateDevice(device).pipe(map(res => res)).toPromise();
+            
+            
+        }
     }
 }
