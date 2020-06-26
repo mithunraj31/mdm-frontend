@@ -54,6 +54,7 @@ import { GroupManagementPanelComponent } from './components/group-management-pan
 import { TreeModule } from 'angular-tree-component';
 import { VerticalDetailComponent } from './components/vertical-details/vertical-details.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { PagerComponent } from './components/pager/pager.component';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -89,6 +90,7 @@ const COMPONENTS = [
   TwoColumnsLayoutComponent,
   NbToggleWraperComponent,
   SelectGroupModalComponent,
+  PagerComponent,
 ];
 const PIPES = [
   CapitalizePipe,
