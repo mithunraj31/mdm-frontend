@@ -24,6 +24,7 @@ export class DevicesComponent implements OnInit {
   // data from backend API, after obtain dat will give to the property
   // then pass obtained data the its child components
   groupNodes: any[];
+  tempGroups: any;
 
   constructor(
     private toasterService: NbToastrService,
@@ -53,6 +54,7 @@ export class DevicesComponent implements OnInit {
   getDeviceProfiles() {
     this.deviceService.getProfiles().subscribe(result => {
       if (result?.data) {
+        this.tempGroups = result.data;
         var array = result.data;
         var newArray = [];
         for (var i = 0; i < array.length; i++) {
@@ -150,5 +152,13 @@ export class DevicesComponent implements OnInit {
       }
       return deviceList;
     }));
+  }
+
+  onGroupMoved($event) {
+    const profile = this.tempGroups.find( ({ uuid }) => uuid === $event.id );
+    console.log(profile)
+    this.deviceService.moveGroup(profile, $event.id, $event.parentId).subscribe(result => {
+      this.getDeviceProfiles();
+    })
   }
 }
