@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild, Output, EventEmitter } from '@angular/core';
-import { TreeComponent } from 'angular-tree-component';
+import { TreeComponent, TreeModel, TreeNode } from 'angular-tree-component';
 import { NbDialogService, NbMenuItem, NbMenuService } from '@nebular/theme';
 import { ConfirmModalComponent } from '../confirm-modal/cofirm-modal.component';
 
@@ -42,6 +42,7 @@ export class GroupManagementPanelComponent {
     @Output() onChanged = new EventEmitter();
     @Output() onAdded = new EventEmitter();
     @Output() onViewAllSelected = new EventEmitter();
+    @Output() onGroupMoved = new EventEmitter();
 
     constructor(private dialogService: NbDialogService,
         private menuService: NbMenuService) {
@@ -64,7 +65,17 @@ export class GroupManagementPanelComponent {
                     id: +new Date,
                     name: `copy of ${node.data.name}`
                 };
-            }
+            },
+            actionMapping: {
+                mouse: {
+                  drop: (tree:TreeModel, node:TreeNode, $event:any, {from, to}) => {
+                      this.onGroupMoved.emit({
+                          id: from.data.id, 
+                          parentId: to.parent.data.id
+                        });
+                  }     
+                }
+              }
         };
         this.menuService.onItemClick().subscribe(item => {
             if (item.tag == 'groupMenu') {
@@ -94,7 +105,7 @@ export class GroupManagementPanelComponent {
     // then show textbox at the last tree root level 1 with default value.
     onAddGroupButtonClick() {
 
-        this.onAdded.emit('');
+        
         // add plain Group data format to group listing, Default group name to "undefined"
         // set isEdit to true because need to open textbox in group tree.
         // this.groups.push({
@@ -104,8 +115,10 @@ export class GroupManagementPanelComponent {
         //     isEdit: false
         // });
 
+        this.onAdded.emit('undefined');
+
         // manually trigger update tree data after added new group data.
-        // this.tree.treeModel.update();
+        //this.tree.treeModel.update();
     }
 
     // @method onDeleteGroupClick: Delete group from tree root
@@ -134,6 +147,7 @@ export class GroupManagementPanelComponent {
     // @parameter $event {any}: the parameter contian changed tree root model (angular-tree-component)
     // @return {void}
     onGroupChanged($event: any) {
+        console.log($event.treeModel);
         this.onChanged.emit($event.treeModel.nodes);
     }
 

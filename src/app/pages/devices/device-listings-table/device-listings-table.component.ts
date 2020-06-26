@@ -95,6 +95,7 @@ export class DeviceListingsTableComponent {
                         instance.onSwitched.subscribe(event => {
                             // on enabled
                             // do stuff
+                            console.log(event)
                         });
                     },
                 },
