@@ -25,10 +25,17 @@ export class DevicesComponent implements OnInit {
   // data from backend API, after obtain dat will give to the property
   // then pass obtained data the its child components
   groupNodes: any[];
+
   tempGroups: any;
 
   pagination: Pagination = null;
 
+  //@property selectedGroupsState: store selected group data
+  // use for pagination when user click pager
+  // GroupManagementPanelComponent and DeviceListingsTableComponent can not comunicate directly
+  // so both components comunicate data by parent component 
+  // when use clicked pager to change page number [fetchDeviceData] method will attach current value
+  // to parameter if now will request device data all but contains data will request by selected group 
   private selectedGroupsState: any = null;
 
   constructor(
@@ -39,18 +46,6 @@ export class DevicesComponent implements OnInit {
   ngOnInit(): void {
     this.getDeviceProfiles();
     this.getDeviceData();
-  }
-
-
-  deleteGroup(group: any) {
-
-    // status can be 'basic' | 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'control'
-    let status: NbComponentStatus = 'success';
-
-    // notify user via toast message
-    this.toasterService.show(status, 'some message', {
-      position: NbGlobalPhysicalPosition.TOP_RIGHT
-    });
   }
 
   getDeviceProfiles() {
@@ -120,9 +115,20 @@ export class DevicesComponent implements OnInit {
     }));
   }
 
+  //@method onGroupSelected: get device listing by group
+  // the method will request device listings data from Backend API
+  // then store obtained data to [tempDevice], the property
+  // will display on table and store pagination data
+  // @parameter $event {any}: selected group with it childrens
+  // @parameter(optional default value by 1) page{number}: current page number
+  // @return {void}
   onGroupSelected($event: any, page: number = 1) {
     let idArray: string[] = [];
 
+    // mapping group id to array of group id (same level)
+    // and assing to [idArray]
+    // ex. { id: 1, child: [ { id:2, child: [] }, { id:3, child: [] } ] }
+    // => [1,2,3]
     const getId = (obj: any) => {
       idArray.push(obj.id);
       if (obj.children && obj.children.length > 0) {
@@ -132,6 +138,8 @@ export class DevicesComponent implements OnInit {
       }
     }
     getId($event);
+
+    // request data from Backend API
     this.deviceListings$ = this.deviceService.getDeviceDataByGroupId(idArray, page, 10).pipe(map(result => {
       const deviceList: DeviceModel[] = [];
       if (result?.data?.length > 0) {
@@ -167,16 +175,22 @@ export class DevicesComponent implements OnInit {
     }));
   }
 
+  // @method fetchDeviceData: group selection event listiner
+  // when user selected group from group selection panel will excute the method
+  // then request device listings data from Backend API
+  // @return {void}
   fetchDeviceData(devices: any, pageNumber = 1) {
     if (devices == null) {
-      // view all
+      // request all devices
       this.getDeviceData(pageNumber);
     } else {
+      // request by selected group
       this.selectedGroupsState = devices;
       this.onGroupSelected(devices, pageNumber);
     }
   }
 
+  // when user change page will exute the method
   onPageNumberChanged($event) {
     this.fetchDeviceData(this.selectedGroupsState, $event);
   }
@@ -200,8 +214,16 @@ export class DevicesComponent implements OnInit {
     })
   }
   onDeleteGroup($event) {
-    this.deviceService.deleteGroup($event.id).subscribe(result=>{
+    this.deviceService.deleteGroup($event.id).subscribe(result => {
       this.getDeviceProfiles();
+
+      // status can be 'basic' | 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'control'
+      let status: NbComponentStatus = 'success';
+
+      // notify user via toast message
+      this.toasterService.show(status, 'some message', {
+        position: NbGlobalPhysicalPosition.TOP_RIGHT
+      });
     })
   }
 }

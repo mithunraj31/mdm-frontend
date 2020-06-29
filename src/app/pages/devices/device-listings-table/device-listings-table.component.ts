@@ -36,6 +36,9 @@ export class DeviceListingsTableComponent {
     @Output() onDeviceAdded = new EventEmitter();
     @Output() onPageNumberChanged = new EventEmitter();
 
+    //@property page: current page of listings table
+    //use for PagerComponent 
+    //@type {number}
     page: number = 1;
 
     @Input() pagination: Pagination;
@@ -62,6 +65,7 @@ export class DeviceListingsTableComponent {
                     renderComponent: SmartTableLinkComponent,
                     // use for listening component events.
                     onComponentInitFunction: (instance: any) => {
+                        // when user click serial number will redirect to devcie details page
                         instance.onClicked.subscribe(response => {
                             this.router.navigate([`pages/devices/${response.id}`]);
                         });
@@ -98,12 +102,14 @@ export class DeviceListingsTableComponent {
                     renderComponent: NbToggleWraperComponent,
                     // use for listening component events.
                     onComponentInitFunction: (instance: any) => {
+                        // when user toggle a device switcher will update device detail via Backend API
                         instance.onSwitched.subscribe(event => {
                             this.enableDeviceAsync(event.rowData.id, event.currentValue);
                         });
                     },
                 },
             },
+            // hide ng2-smart-table pager
             pager: {
                 display: false
             }
@@ -134,10 +140,17 @@ export class DeviceListingsTableComponent {
         });
     }
 
+    // @method  onPageChanged: pass user selected page number to parent component
+    // when user click pager will ecute the method
+    // @return {void}
     onPageChanged($event) {
         this.onPageNumberChanged.emit($event);
     }
 
+    //@method enableDeviceAsync: update devive is enabeld status via backend API
+    // the method will request API to get device detail and modify its property [enabled]
+    // then send request to update the modified device data
+    // return {Promise<any>}
     private async enableDeviceAsync(deviceId: string, isEnabled: boolean) {
         const device = await this.deviceService.getDeviceById(deviceId)
             .pipe(map(res => res?.data)).toPromise();
