@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NbMenuItem } from '@nebular/theme';
 import { LogModel } from '../../../@core/entities/log.model';
+import { Pagination } from '../../../@core/entities/page.model';
 
 @Component({
   selector: 'mdm-logs',
@@ -35,6 +36,10 @@ export class LogsComponent implements OnInit {
   sideMenuItems: NbMenuItem[] = [];
 
   logs$: Observable<LogModel[]>;
+
+  pagination: Pagination = null;
+
+  page: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -80,6 +85,7 @@ export class LogsComponent implements OnInit {
         },
       },
     };
+    this.page = 1;
   }
 
   ngOnInit() {
@@ -92,7 +98,7 @@ export class LogsComponent implements OnInit {
       this.deviceId = paramMap.id;
 
     });
-    this.getLogs(this.deviceId, 0, 10);
+    this.getLogs(this.deviceId, this.page, 10);
 
   }
 
@@ -104,6 +110,11 @@ export class LogsComponent implements OnInit {
       .pipe(map(result => {
         const logs: LogModel[] = [];
         if (result?.data) {
+          this.pagination = { 
+            pageSize: result.size,
+            totalPage: result.totalPage,
+            totalSize: result.totalSize
+          };
           result.data.forEach(log => {
             let tempLog: LogModel = {
               event: log.category || '',
@@ -119,5 +130,10 @@ export class LogsComponent implements OnInit {
         }
         return logs;
       }));
+  }
+
+  onPageChanged(pageumber: number) {
+    this.page = pageumber;
+    this.getLogs(this.deviceId, this.page, 10);
   }
 }

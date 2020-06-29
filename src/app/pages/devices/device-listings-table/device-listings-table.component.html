@@ -7,13 +7,22 @@
                 (click)="onAddDeviceManualButtonClick()">
                     <i class="fas fa-plus-square"></i>
                 </button>
-                <button nbButton status="primary" class="add-device-button">
+                <!-- do at phase 1.1-->
+                <!-- <button nbButton status="primary" class="add-device-button">
                     <i class="fas fa-qrcode"></i>
-                </button>
+                </button> -->
             </div>
         </div>
     </nb-card-header>
     <nb-card-body>
-        <ng2-smart-table [settings]="tableSettings" [source]="listings"></ng2-smart-table>
+        <ng2-smart-table [settings]="tableSettings" [source]="listings" ></ng2-smart-table>
+        <div class="pagination-container">
+            <mdm-pager *ngIf="pagination" 
+            [page]="page"
+            [totalItem]="pagination.totalSize"
+            [itemPerPage]="10"
+            (onPageChange)="onPageChanged($event)"></mdm-pager>
+        </div>
+
     </nb-card-body>
 </nb-card>

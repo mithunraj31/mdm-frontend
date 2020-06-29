@@ -1,5 +1,5 @@
-import { DeviceService } from './../../services/Device-service.service';
 import { DashboardService } from './services/dashboard.service';
+import { DeviceService } from './../../services/Device-service.service';
 import { UserService } from './services/user.service';
 /**
  * @license
@@ -27,6 +27,8 @@ import {
 import { AuthService } from './auth/Auth.service';
 import { AuthGuardService } from './auth/auth-guard.service';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
+import { NgxAuthModule } from './pages/auth/auth.module';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 @NgModule({
   declarations: [AppComponent],
