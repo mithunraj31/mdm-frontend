@@ -68,22 +68,29 @@ export class GroupManagementPanelComponent {
             },
             actionMapping: {
                 mouse: {
-                  drop: (tree:TreeModel, node:TreeNode, $event:any, {from, to}) => {
-                      this.onGroupMoved.emit({
-                          id: from.data.id, 
-                          parentId: to.parent.data.id
+                    //drop node event listner
+                    // when user moved group will send moved group id and it parent id
+                    // to parent component
+                    drop: (tree: TreeModel, node: TreeNode, $event: any, { from, to }) => {
+                        this.onGroupMoved.emit({
+                            id: from.data.id,
+                            parentId: to.parent.data.id
                         });
-                  }     
+                    }
                 }
-              }
+            }
         };
+
+        // on view all selected
         this.menuService.onItemClick().subscribe(item => {
             if (item.tag == 'groupMenu') {
-                
+
+                // remove active group statsu from node element
                 const activedNode = this.tree.treeModel.getActiveNode();
 
                 if (activedNode) {
                     activedNode.setIsActive(false);
+                    // add hilight view all label
                     this.sideMenuItems = [
                         {
                             title: 'View all',
@@ -104,7 +111,7 @@ export class GroupManagementPanelComponent {
     // then show textbox at the last tree root level 1 with default value.
     onAddGroupButtonClick() {
 
-        
+
         // add plain Group data format to group listing, Default group name to "undefined"
         // set isEdit to true because need to open textbox in group tree.
         // this.groups.push({
@@ -159,10 +166,14 @@ export class GroupManagementPanelComponent {
     // @parameter groupId {string}: group id
     // @return {void}
     onNameChanged($event: any, groupId: string) {
-        this.onRename.emit({id: groupId, value: $event.target.value});
+        this.onRename.emit({ id: groupId, value: $event.target.value });
     }
 
+    // @method onGroupSelected: pass selected group data to parent component
+    // the method excute when user selected some group
+    // @return {void}
     onGroupSelected($event: any) {
+        //remove hilight from view menu
         this.sideMenuItems = [
             {
                 title: 'View all',

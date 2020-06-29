@@ -73,20 +73,25 @@ export class AddDeviceManualModalComponent implements OnInit {
         }
     }
 
+    // @method validateForm: validate form values is existings
+    // email, license id and serial number must be not empty
+    // and serial number length must at least 3 character
+    // @return {boolean}
     validateForm(): boolean {
-        let valid = false;
-        if (this.basicInfo.email &&
+        return (this.basicInfo.email &&
             this.basicInfo.licenseId &&
             this.basicInfo.serialNumber &&
-            this.basicInfo.serialNumber.length > 3) {
-            valid = true;
-        }
-        return valid;
+            this.basicInfo.serialNumber.length > 3);
     }
+
+    // method getLicenseData: retrive license data from Backend API
+    // assign license observable to  @property licenses$ 
+    // then licenses$ will bind obtained values to dropdown list
+    // @return {void}
     getLicenseData() {
         this.licenses$ = this.deviceService.getLicenses().pipe(map(results => {
             const licenses: LicenseModel[] = []
-            if (results.data && results.data.length > 0) {
+            if (results?.data?.length > 0) {
                 results.data.forEach(license => {
                     let tempLicense: LicenseModel = {
                         id: license.uuid,
