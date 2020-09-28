@@ -71,6 +71,9 @@ export class LoginComponent {
     // if request rejected will display error message on top of login form
     // @return {void}
     login() {
+        // remove junk if available
+        localStorage.removeItem('id_token');
+        localStorage.removeItem('user');
         // display loading spiner
         this.isLoading = true;
 
@@ -99,7 +102,7 @@ export class LoginComponent {
                             imgUrl: 'https://midmtest.mic.com.tw/profile/user/' + result.data.uuid
                         };
 
-                        //  save user data to local storage 
+                        //  save user data to local storage
                         localStorage.setItem('user', JSON.stringify(user));
 
                         // redirect to dashboard
